@@ -13,11 +13,10 @@ void main() async {
   final config = Config();
 
   await Supabase.initialize(
-      url: config.url,
-      anonKey: config.anonKey,
-      authCallbackUrlHostname: 'login-callback', // optional
-      debug: true // optional
-      );
+    url: config.url,
+    anonKey: config.anonKey,
+    authCallbackUrlHostname: 'login-callback', // optional
+  );
 
   runApp(const ProviderScope(child: MyApp()));
 }
