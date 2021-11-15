@@ -91,7 +91,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
             state.household.value!.copyWith(expenses: expenses)));
   }
 
-  Future<void> createExpense(int amount) async {
+  Future<void> createExpense(double amount) async {
     final household = state.household.value!;
     await _householdService.createExpense(
       supabase.auth.currentUser!.id,

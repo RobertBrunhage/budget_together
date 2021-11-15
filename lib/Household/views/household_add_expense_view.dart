@@ -33,6 +33,7 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
                 // The validator receives the text that the user has entered.
@@ -42,8 +43,14 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                   }
                   return null;
                 },
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.deny(
+                    RegExp('[\\-|\\ ]'),
+                  ),
+                  FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
+                ],
                 onChanged: (value) {
                   setState(() {
                     expense = value;
@@ -56,12 +63,12 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                   if (_formKey.currentState!.validate()) {
                     ref
                         .read(householdControllerProvider.notifier)
-                        .createExpense(int.parse(expense));
+                        .createExpense(double.parse(expense));
 
                     context.go('/household');
                   }
                 },
-                child: const Text('Submit'),
+                child: const Text('add expense'),
               ),
               ref.watch(categoryControllerProvider).categories.when(
                     data: (categories) {

@@ -13,6 +13,8 @@ class Expense {
     required this.user,
   });
 
+  double get calculatedAmount => amount / 100;
+
   Expense copyWith({
     int? id,
     int? amount,
@@ -29,7 +31,7 @@ class Expense {
 
   Map<String, dynamic> toMap() {
     return {
-      'amount': amount,
+      'amount': amount * 100,
       'category': category.toMap(),
       'user': user.toMap(),
     };

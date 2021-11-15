@@ -21,6 +21,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextFormField(
                 // The validator receives the text that the user has entered.

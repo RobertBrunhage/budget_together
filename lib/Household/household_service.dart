@@ -57,10 +57,14 @@ class HouseholdService {
   }
 
   Future<void> createExpense(
-      String userId, int amount, Category category, int householdId) async {
+    String userId,
+    double amount,
+    Category category,
+    int householdId,
+  ) async {
     final expense = Expense(
       id: -1,
-      amount: amount,
+      amount: (amount * 100).toInt(),
       category: category,
       user: User(id: userId, name: ''),
     );
@@ -68,7 +72,7 @@ class HouseholdService {
   }
 
   Future<void> deleteExpense(int expenseId) async {
-    _expenseRepository.deleteExpense(expenseId);
+    await _expenseRepository.deleteExpense(expenseId);
   }
 
   Future<List<Category>?> fetchAllCategories(int householdId) {

@@ -53,22 +53,20 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                   return Column(
                     children: [
                       Text(household?.name ?? ''),
-                      Text(household?.expenses
-                              .fold<int>(
-                                  0,
-                                  (previousValue, element) =>
-                                      previousValue + element.amount)
-                              .toString() ??
-                          ''),
+                      Text(
+                          '${household?.expenses.fold<double>(0, (previousValue, element) => previousValue + element.calculatedAmount)} SEK'),
                       Expanded(
                         child: ListView.builder(
                           itemCount: household?.expenses.length ?? 0,
                           itemBuilder: (context, index) {
                             final expense = household!.expenses[index];
                             return ListTile(
-                              title: Text(expense.amount.toString()),
+                              title: Text('${expense.calculatedAmount} SEK'),
                               subtitle: Text(expense.user.name),
                               trailing: Text(expense.category.name),
+                              onLongPress: () => ref
+                                  .read(householdControllerProvider.notifier)
+                                  .deleteExpense(expense.id),
                             );
                           },
                         ),
