@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.budget_together">
+
+   <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="budget_together"
         android:icon="@mipmap/ic_launcher">
