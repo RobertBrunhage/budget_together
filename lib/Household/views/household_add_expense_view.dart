@@ -1,3 +1,5 @@
+import 'package:budget_together/Household/category.dart';
+import 'package:budget_together/Household/category_controller.dart';
 import 'package:budget_together/Household/household_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,14 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
   final _formKey = GlobalKey<FormState>();
 
   String expense = '';
+
+  @override
+  void initState() {
+    super.initState();
+    final householdId =
+        ref.read(householdControllerProvider).household.value!.id;
+    ref.read(categoryControllerProvider.notifier).fetchCategories(householdId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +63,35 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                 },
                 child: const Text('Submit'),
               ),
+              ref.watch(categoryControllerProvider).categories.when(
+                    data: (categories) {
+                      return DropdownButton<Category>(
+                          value: ref.watch(categoryControllerProvider).category,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.deepPurple),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.deepPurpleAccent,
+                          ),
+                          onChanged: (newValue) {
+                            setState(() {
+                              ref
+                                  .read(categoryControllerProvider.notifier)
+                                  .setCategory(newValue!);
+                            });
+                          },
+                          items: categories
+                              ?.map((e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.name),
+                                  ))
+                              .toList());
+                    },
+                    error: (e, s) => Text(e.toString()),
+                    loading: () => const CircularProgressIndicator(),
+                  ),
             ],
           ),
         ),

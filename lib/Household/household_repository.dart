@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:budget_together/Authentication/login.dart';
 import 'package:budget_together/Household/household.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,14 +9,13 @@ final householdRepositoryProvider = Provider<HouseholdRepository>((ref) {
 });
 
 class HouseholdRepository {
-  Future<void> createHousehold(String userId, String householdName) async {
+  Future<int> createHousehold(String userId, String householdName) async {
     try {
       final response = await supabase
           .from('households')
           .upsert({'creator': userId, 'name': householdName}).execute();
 
       final households = List.from(response.data);
-      print(households[0]);
 
       final household = Household.fromMap(households[0]);
 
@@ -22,8 +23,10 @@ class HouseholdRepository {
         'profile_id': userId,
         'household_id': household.id,
       }).execute();
+
+      return household.id;
     } catch (e) {
-      print(e);
+      throw HttpException(e.toString());
     }
   }
 

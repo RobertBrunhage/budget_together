@@ -1,6 +1,7 @@
 import 'package:budget_together/Authentication/login.dart';
 import 'package:budget_together/Authentication/user.dart';
 import 'package:budget_together/Household/category.dart';
+import 'package:budget_together/Household/category_repository.dart';
 import 'package:budget_together/Household/expense.dart';
 import 'package:budget_together/Household/expense_repository.dart';
 import 'package:budget_together/Household/household_repository.dart';
@@ -14,6 +15,7 @@ final householdServiceProvider = Provider<HouseholdService>((ref) {
     ref.watch(householdRepositoryProvider),
     ref.watch(expenseRepositoryProvider),
     ref.watch(inviteRepositoryProvider),
+    ref.watch(categoryRepositoryProvider),
   );
 });
 
@@ -21,15 +23,20 @@ class HouseholdService {
   final HouseholdRepository _householdRepository;
   final ExpenseRepository _expenseRepository;
   final InviteRepository _inviteRepository;
+  final CategoryRepository _categoryRepository;
 
   HouseholdService(
     this._householdRepository,
     this._expenseRepository,
     this._inviteRepository,
+    this._categoryRepository,
   );
 
   Future<void> createHousehold(String userId, String householdName) async {
-    return _householdRepository.createHousehold(userId, householdName);
+    final householdId =
+        await _householdRepository.createHousehold(userId, householdName);
+    await _categoryRepository.createCategory(
+        Category(name: 'annat', id: -1), householdId);
   }
 
   Future<void> inviteUserToHousehold(String email, int householdId) async {
@@ -50,7 +57,7 @@ class HouseholdService {
   }
 
   Future<void> createExpense(
-      String userId, int amount, Category? category, int householdId) async {
+      String userId, int amount, Category category, int householdId) async {
     final expense = Expense(
       id: -1,
       amount: amount,
@@ -62,5 +69,9 @@ class HouseholdService {
 
   Future<void> deleteExpense(int expenseId) async {
     _expenseRepository.deleteExpense(expenseId);
+  }
+
+  Future<List<Category>?> fetchAllCategories(int householdId) {
+    return _categoryRepository.fetchCategories(householdId);
   }
 }

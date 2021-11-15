@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:budget_together/Authentication/login.dart';
 import 'package:budget_together/Authentication/user.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,9 +13,7 @@ class UserRepository {
     final response =
         await supabase.from('profiles').upsert(user.toMap()).execute();
     if (response.error != null) {
-      print(response.error?.message);
-    } else {
-      print('WOW SUCCESS CREATING OR UPDATING USER');
+      throw HttpException(response.error?.message ?? 'no');
     }
   }
 }

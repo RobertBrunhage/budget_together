@@ -4,7 +4,7 @@ import 'package:budget_together/Household/category.dart';
 class Expense {
   final int id;
   final int amount;
-  final Category? category;
+  final Category category;
   final User user;
   Expense({
     required this.id,
@@ -30,7 +30,7 @@ class Expense {
   Map<String, dynamic> toMap() {
     return {
       'amount': amount,
-      'category': category?.toMap(),
+      'category': category.toMap(),
       'user': user.toMap(),
     };
   }
@@ -39,9 +39,7 @@ class Expense {
     return Expense(
       id: map['id'],
       amount: map['amount'],
-      category: map['categories'] == null
-          ? null
-          : Category.fromMap(map['categories']),
+      category: Category.fromMap(map['categories']),
       user: User.fromMap(map['profiles']),
     );
   }

@@ -29,14 +29,12 @@ class ExpenseRepository {
         'profile_id': expense.user.id,
         'household_id': householdId,
         'transaction_date': DateTime.now().toIso8601String(),
+        'category_id': expense.category.id,
       }).execute();
-
-      final households = response.data;
 
       return expense.copyWith(id: response.data[0]['id']);
     } catch (e) {
-      print(e);
-      throw HttpException('something went wrong');
+      throw HttpException(e.toString());
     }
   }
 
@@ -44,8 +42,7 @@ class ExpenseRepository {
     try {
       await supabase.from('expenses').delete().eq('id', expenseId).execute();
     } catch (e) {
-      print(e);
-      throw HttpException('something went wrong');
+      throw HttpException(e.toString());
     }
   }
 }

@@ -11,7 +11,7 @@ final authControllerProvider = ChangeNotifierProvider<AuthController>((ref) {
 
 class AuthController extends ChangeNotifier {
   AuthController(this._authService) : super() {
-    recoverSupabaseSession();
+    supabase.auth.refreshSession();
     _sub = supabase.auth.onAuthStateChange((event, session) {
       setAuthState(session);
     });
@@ -33,29 +33,6 @@ class AuthController extends ChangeNotifier {
       await _authService.createOrUpdateUser(
         User(id: session!.user!.id, name: session!.user!.email!.split('@')[0]),
       );
-    }
-  }
-
-  Future<bool> recoverSupabaseSession() async {
-    final bool exist =
-        await SupabaseAuth.instance.localStorage.hasAccessToken();
-    if (!exist) {
-      return false;
-    }
-
-    final String? jsonStr =
-        await SupabaseAuth.instance.localStorage.accessToken();
-    if (jsonStr == null) {
-      return false;
-    }
-
-    final response =
-        await Supabase.instance.client.auth.recoverSession(jsonStr);
-    if (response.error != null) {
-      SupabaseAuth.instance.localStorage.removePersistedSession();
-      return false;
-    } else {
-      return true;
     }
   }
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:budget_together/Authentication/auth/auth_controller.dart';
 import 'package:budget_together/Authentication/login.dart';
 import 'package:budget_together/Authentication/splash.dart';
@@ -88,6 +90,8 @@ class _MyAppState extends ConsumerState<MyApp> {
           ref.watch(authControllerProvider).session == null ? false : true;
 
       final goingToLogin = state.location == '/login';
+      log('loggedIn: ' + loggedIn.toString());
+      log('goingToLogin: ' + goingToLogin.toString());
 
       // the user is not logged in and not headed to /login, they need to login
       if (!loggedIn && !goingToLogin) return '/login';

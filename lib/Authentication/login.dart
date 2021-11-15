@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:budget_together/Authentication/supabase/auth_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +31,9 @@ class _LoginViewState extends AuthState<LoginView> {
                 : 'io.supabase.flutterquickstart://login-callback/'));
     final error = response.error;
     if (error != null) {
-      print(error.message);
+      log(error.message);
     } else {
-      print('Check your email for login link!');
+      log('Check your email for login link!');
       _emailController.clear();
     }
 

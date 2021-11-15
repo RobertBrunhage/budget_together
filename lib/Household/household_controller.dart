@@ -1,19 +1,25 @@
 import 'package:budget_together/Authentication/login.dart';
+import 'package:budget_together/Household/category.dart';
+import 'package:budget_together/Household/category_controller.dart';
 import 'package:budget_together/Household/household.dart';
 import 'package:budget_together/Household/household_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HouseholdState {
   final AsyncValue<Household?> household;
+  final AsyncValue<List<Category>?> categories;
   HouseholdState({
     required this.household,
+    required this.categories,
   });
 
   HouseholdState copyWith({
     AsyncValue<Household?>? household,
+    AsyncValue<List<Category>?>? categories,
   }) {
     return HouseholdState(
       household: household ?? this.household,
+      categories: categories ?? this.categories,
     );
   }
 
@@ -33,16 +39,23 @@ class HouseholdState {
 
 final householdControllerProvider =
     StateNotifierProvider<HouseholdController, HouseholdState>((ref) {
-  return HouseholdController(ref.watch(householdServiceProvider));
+  return HouseholdController(
+    ref.watch(householdServiceProvider),
+    ref.watch(categoryControllerProvider.notifier),
+  );
 });
 
 class HouseholdController extends StateNotifier<HouseholdState> {
-  HouseholdController(this._householdService)
-      : super(HouseholdState(household: const AsyncValue.loading())) {
+  HouseholdController(this._householdService, this._categoryController)
+      : super(HouseholdState(
+          household: const AsyncValue.loading(),
+          categories: const AsyncValue.loading(),
+        )) {
     fetchHousehold();
   }
 
   final HouseholdService _householdService;
+  final CategoryController _categoryController;
 
   Future<void> createHousehold(String userId, String householdName) async {
     await _householdService.createHousehold(userId, householdName);
@@ -81,7 +94,11 @@ class HouseholdController extends StateNotifier<HouseholdState> {
   Future<void> createExpense(int amount) async {
     final household = state.household.value!;
     await _householdService.createExpense(
-        supabase.auth.currentUser!.id, amount, null, household.id);
+      supabase.auth.currentUser!.id,
+      amount,
+      _categoryController.state.category,
+      household.id,
+    );
     await fetchExpenses();
   }
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:budget_together/Authentication/login.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,7 +14,7 @@ class InviteRepository {
           .from('invites')
           .upsert({'household_id': householdId, 'email': email}).execute();
     } catch (e) {
-      print(e);
+      throw HttpException(e.toString());
     }
   }
 
@@ -37,7 +39,7 @@ class InviteRepository {
             .execute();
       }
     } catch (e) {
-      print(e);
+      throw HttpException(e.toString());
     }
   }
 }

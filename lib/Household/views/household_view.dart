@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:budget_together/Authentication/login.dart';
 import 'package:budget_together/Household/household_controller.dart';
 import 'package:flutter/material.dart';
@@ -66,20 +68,20 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                             return ListTile(
                               title: Text(expense.amount.toString()),
                               subtitle: Text(expense.user.name),
-                              trailing: Text(expense.category?.name ?? 'annat'),
+                              trailing: Text(expense.category.name),
                             );
                           },
                         ),
                       ),
                       ElevatedButton(
                         onPressed: () => context.go('/household/add-expense'),
-                        child: Text('Add expense'),
+                        child: const Text('Add expense'),
                       ),
                     ],
                   );
                 },
-                loading: () => CircularProgressIndicator(),
-                error: (e, s) => Text('error'),
+                loading: () => const CircularProgressIndicator(),
+                error: (e, s) => const Text('error'),
               ),
         ),
       ),
@@ -91,7 +93,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
 
     final error = response.error;
     if (error != null) {
-      print(error.message);
+      log(error.message);
       context.go('/login');
     }
   }

@@ -37,7 +37,6 @@ class Household {
   }
 
   factory Household.fromMap(Map<String, dynamic> map) {
-    print(map);
     return Household(
       id: map['id'],
       creator: map['creator'],
