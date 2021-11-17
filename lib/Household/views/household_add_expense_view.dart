@@ -1,6 +1,6 @@
-import 'package:budget_together/Household/category.dart';
-import 'package:budget_together/Household/category_controller.dart';
-import 'package:budget_together/Household/household_controller.dart';
+import 'package:budget_together/Household/controllers/category_controller.dart';
+import 'package:budget_together/Household/controllers/household_controller.dart';
+import 'package:budget_together/Household/entities/category/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

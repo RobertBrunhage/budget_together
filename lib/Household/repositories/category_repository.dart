@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/category.dart';
+import 'package:budget_together/Household/entities/category/category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
@@ -17,7 +17,7 @@ class CategoryRepository {
         .execute();
 
     final categories =
-        List.from(response.data).map((e) => Category.fromMap(e)).toList();
+        List.from(response.data).map((e) => Category.fromJson(e)).toList();
 
     return categories;
   }
@@ -29,7 +29,7 @@ class CategoryRepository {
         'name': category.name,
       }).execute();
 
-      return Category.fromMap(response.data);
+      return Category.fromJson(response.data);
     } catch (e) {
       throw HttpException(e.toString());
     }

@@ -1,6 +1,6 @@
 import 'package:budget_together/Authentication/auth/auth_service.dart';
+import 'package:budget_together/Authentication/entities/user.dart';
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Authentication/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;

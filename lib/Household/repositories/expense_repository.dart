@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/expense.dart';
+import 'package:budget_together/Household/entities/expense/expense.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
@@ -17,7 +17,7 @@ class ExpenseRepository {
         .execute();
 
     final expenses =
-        List.from(response.data).map((e) => Expense.fromMap(e)).toList();
+        List.from(response.data).map((e) => Expense.fromJson(e)).toList();
 
     return expenses;
   }

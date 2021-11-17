@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/household.dart';
+import 'package:budget_together/Household/entities/household/household.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final householdRepositoryProvider = Provider<HouseholdRepository>((ref) {
@@ -17,7 +17,7 @@ class HouseholdRepository {
 
       final households = List.from(response.data);
 
-      final household = Household.fromMap(households[0]);
+      final household = Household.fromJson(households[0]);
 
       await supabase.from('household_profiles').upsert({
         'profile_id': userId,
@@ -44,7 +44,7 @@ class HouseholdRepository {
 
     final household = response.data[0]['households'];
 
-    final firstHouseholdFound = Household.fromMap(household);
+    final firstHouseholdFound = Household.fromJson(household);
     return firstHouseholdFound;
   }
 }

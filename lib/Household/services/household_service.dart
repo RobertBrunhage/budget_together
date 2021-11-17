@@ -1,14 +1,14 @@
+import 'package:budget_together/Authentication/entities/user.dart';
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Authentication/user.dart';
-import 'package:budget_together/Household/category.dart';
-import 'package:budget_together/Household/category_repository.dart';
-import 'package:budget_together/Household/expense.dart';
-import 'package:budget_together/Household/expense_repository.dart';
-import 'package:budget_together/Household/household_repository.dart';
-import 'package:budget_together/Household/invite_repository.dart';
+import 'package:budget_together/Household/entities/category/category.dart';
+import 'package:budget_together/Household/entities/expense/expense.dart';
+import 'package:budget_together/Household/repositories/category_repository.dart';
+import 'package:budget_together/Household/repositories/expense_repository.dart';
+import 'package:budget_together/Household/repositories/household_repository.dart';
+import 'package:budget_together/Household/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'household.dart';
+import '../entities/household/household.dart';
 
 final householdServiceProvider = Provider<HouseholdService>((ref) {
   return HouseholdService(

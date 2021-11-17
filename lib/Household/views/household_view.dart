@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/household_controller.dart';
+import 'package:budget_together/Household/controllers/household_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -54,14 +54,15 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                     children: [
                       Text(household?.name ?? ''),
                       Text(
-                          '${household?.expenses.fold<double>(0, (previousValue, element) => previousValue + element.calculatedAmount)} SEK'),
+                          '${household?.expenses.fold<double>(0, (previousValue, element) => previousValue + element.amount)} SEK'),
                       Expanded(
                         child: ListView.builder(
                           itemCount: household?.expenses.length ?? 0,
                           itemBuilder: (context, index) {
                             final expense = household!.expenses[index];
                             return ListTile(
-                              title: Text('${expense.calculatedAmount} SEK'),
+                              // TODO: Expense should be correct
+                              title: Text('${expense.amount} SEK'),
                               subtitle: Text(expense.user.name),
                               trailing: Text(expense.category.name),
                               onLongPress: () => ref

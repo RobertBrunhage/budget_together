@@ -1,8 +1,8 @@
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/category.dart';
-import 'package:budget_together/Household/category_controller.dart';
-import 'package:budget_together/Household/household.dart';
-import 'package:budget_together/Household/household_service.dart';
+import 'package:budget_together/Household/controllers/category_controller.dart';
+import 'package:budget_together/Household/entities/category/category.dart';
+import 'package:budget_together/Household/entities/household/household.dart';
+import 'package:budget_together/Household/services/household_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HouseholdState {
@@ -88,7 +88,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
 
     state = state.copyWith(
         household: AsyncValue.data(
-            state.household.value!.copyWith(expenses: expenses)));
+            state.household.value!.copyWith(expenses: expenses ?? [])));
   }
 
   Future<void> createExpense(double amount) async {

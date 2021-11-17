@@ -1,4 +1,4 @@
-import 'package:budget_together/Household/household_controller.dart';
+import 'package:budget_together/Household/controllers/household_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
