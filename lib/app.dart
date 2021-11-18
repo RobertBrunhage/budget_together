@@ -1,12 +1,13 @@
 import 'dart:developer';
 
-import 'package:budget_together/Authentication/auth/auth_controller.dart';
-import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Authentication/splash.dart';
-import 'package:budget_together/Household/views/household_add_expense_view.dart';
-import 'package:budget_together/Household/views/household_create_view.dart';
-import 'package:budget_together/Household/views/household_invite_view.dart';
-import 'package:budget_together/Household/views/household_view.dart';
+import 'package:budget_together/new_authentication/auth/auth_controller.dart';
+import 'package:budget_together/new_authentication/login.dart';
+import 'package:budget_together/new_household/controllers/splash.dart';
+import 'package:budget_together/new_household/views/household_add_expense_view.dart';
+import 'package:budget_together/new_household/views/household_create_view.dart';
+import 'package:budget_together/new_household/views/household_invite_view.dart';
+import 'package:budget_together/new_household/views/household_view.dart';
+import 'package:budget_together/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -120,10 +121,27 @@ class _MyAppState extends ConsumerState<MyApp> {
       supportedLocales: const [
         Locale('en', ''), // English, no country code
       ],
+      scrollBehavior: const ScrollBehaviorModified(),
       onGenerateTitle: (BuildContext context) =>
           AppLocalizations.of(context)!.appTitle,
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
+      theme: CustomTheme.lightTheme(context),
     );
+  }
+}
+
+class ScrollBehaviorModified extends ScrollBehavior {
+  const ScrollBehaviorModified();
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    switch (getPlatform(context)) {
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+      case TargetPlatform.android:
+        return const BouncingScrollPhysics();
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return const ClampingScrollPhysics();
+    }
   }
 }
