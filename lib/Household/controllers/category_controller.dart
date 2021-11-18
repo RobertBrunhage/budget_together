@@ -1,4 +1,4 @@
-import 'package:budget_together/Household/entities/category/category.dart';
+import 'package:budget_together/Household/models/category/category.dart';
 import 'package:budget_together/Household/services/household_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

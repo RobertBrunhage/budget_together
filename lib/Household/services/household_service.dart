@@ -1,14 +1,15 @@
-import 'package:budget_together/Authentication/entities/user.dart';
+import 'package:budget_together/Authentication/entities/user_entity.dart';
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/entities/category/category.dart';
-import 'package:budget_together/Household/entities/expense/expense.dart';
+import 'package:budget_together/Household/entities/category/category_entity.dart';
+import 'package:budget_together/Household/entities/expense/expense_entity.dart';
+import 'package:budget_together/Household/models/category/category.dart';
+import 'package:budget_together/Household/models/expense/expense.dart';
+import 'package:budget_together/Household/models/household/household.dart';
 import 'package:budget_together/Household/repositories/category_repository.dart';
 import 'package:budget_together/Household/repositories/expense_repository.dart';
 import 'package:budget_together/Household/repositories/household_repository.dart';
 import 'package:budget_together/Household/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../entities/household/household.dart';
 
 final householdServiceProvider = Provider<HouseholdService>((ref) {
   return HouseholdService(
@@ -36,7 +37,7 @@ class HouseholdService {
     final householdId =
         await _householdRepository.createHousehold(userId, householdName);
     await _categoryRepository.createCategory(
-        Category(name: 'annat', id: -1), householdId);
+        CategoryEntity(name: 'annat', id: -1), householdId);
   }
 
   Future<void> inviteUserToHousehold(String email, int householdId) async {
@@ -49,11 +50,16 @@ class HouseholdService {
   }
 
   Future<Household?> fetchHousehold(String userId) async {
-    return _householdRepository.fetchHousehold(userId);
+    final householdEntity = await _householdRepository.fetchHousehold(userId);
+    if (householdEntity == null) return null;
+    return Household.fromEntity(householdEntity);
   }
 
   Future<List<Expense>?> fetchExpenses(int householdId) async {
-    return _expenseRepository.fetchExpenses(householdId);
+    final expenseEntities = await _expenseRepository.fetchExpenses(householdId);
+    if (expenseEntities == null) return null;
+
+    return expenseEntities.map((e) => Expense.fromEntity(e)).toList();
   }
 
   Future<void> createExpense(
@@ -62,11 +68,11 @@ class HouseholdService {
     Category category,
     int householdId,
   ) async {
-    final expense = Expense(
+    final expense = ExpenseEntity(
       id: -1,
       amount: (amount * 100).toInt(),
-      category: category,
-      user: User(id: userId, name: ''),
+      category: category.toEntity(),
+      user: UserEntity(id: userId, name: ''),
     );
     await _expenseRepository.createExpense(expense, householdId);
   }
@@ -75,7 +81,11 @@ class HouseholdService {
     await _expenseRepository.deleteExpense(expenseId);
   }
 
-  Future<List<Category>?> fetchAllCategories(int householdId) {
-    return _categoryRepository.fetchCategories(householdId);
+  Future<List<Category>?> fetchAllCategories(int householdId) async {
+    final categoryEntities =
+        await _categoryRepository.fetchCategories(householdId);
+    final categories =
+        categoryEntities?.map((e) => Category.fromEntity(e)).toList();
+    return categories;
   }
 }

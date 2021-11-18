@@ -2,7 +2,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
-part of 'expense.dart';
+part of 'expense_entity.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,20 +13,20 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Expense _$ExpenseFromJson(Map<String, dynamic> json) {
-  return _Expense.fromJson(json);
+ExpenseEntity _$ExpenseEntityFromJson(Map<String, dynamic> json) {
+  return _ExpenseEntity.fromJson(json);
 }
 
 /// @nodoc
-class _$ExpenseTearOff {
-  const _$ExpenseTearOff();
+class _$ExpenseEntityTearOff {
+  const _$ExpenseEntityTearOff();
 
-  _Expense call(
+  _ExpenseEntity call(
       {required int id,
       required int amount,
-      @JsonKey(name: 'categories') required Category category,
-      @JsonKey(name: 'profiles') required User user}) {
-    return _Expense(
+      @JsonKey(name: 'categories') required CategoryEntity category,
+      @JsonKey(name: 'profiles') required UserEntity user}) {
+    return _ExpenseEntity(
       id: id,
       amount: amount,
       category: category,
@@ -34,49 +34,52 @@ class _$ExpenseTearOff {
     );
   }
 
-  Expense fromJson(Map<String, Object?> json) {
-    return Expense.fromJson(json);
+  ExpenseEntity fromJson(Map<String, Object?> json) {
+    return ExpenseEntity.fromJson(json);
   }
 }
 
 /// @nodoc
-const $Expense = _$ExpenseTearOff();
+const $ExpenseEntity = _$ExpenseEntityTearOff();
 
 /// @nodoc
-mixin _$Expense {
+mixin _$ExpenseEntity {
   int get id => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   @JsonKey(name: 'categories')
-  Category get category => throw _privateConstructorUsedError;
+  CategoryEntity get category => throw _privateConstructorUsedError;
   @JsonKey(name: 'profiles')
-  User get user => throw _privateConstructorUsedError;
+  UserEntity get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ExpenseCopyWith<Expense> get copyWith => throw _privateConstructorUsedError;
+  $ExpenseEntityCopyWith<ExpenseEntity> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ExpenseCopyWith<$Res> {
-  factory $ExpenseCopyWith(Expense value, $Res Function(Expense) then) =
-      _$ExpenseCopyWithImpl<$Res>;
+abstract class $ExpenseEntityCopyWith<$Res> {
+  factory $ExpenseEntityCopyWith(
+          ExpenseEntity value, $Res Function(ExpenseEntity) then) =
+      _$ExpenseEntityCopyWithImpl<$Res>;
   $Res call(
       {int id,
       int amount,
-      @JsonKey(name: 'categories') Category category,
-      @JsonKey(name: 'profiles') User user});
+      @JsonKey(name: 'categories') CategoryEntity category,
+      @JsonKey(name: 'profiles') UserEntity user});
 
-  $CategoryCopyWith<$Res> get category;
-  $UserCopyWith<$Res> get user;
+  $CategoryEntityCopyWith<$Res> get category;
+  $UserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
-class _$ExpenseCopyWithImpl<$Res> implements $ExpenseCopyWith<$Res> {
-  _$ExpenseCopyWithImpl(this._value, this._then);
+class _$ExpenseEntityCopyWithImpl<$Res>
+    implements $ExpenseEntityCopyWith<$Res> {
+  _$ExpenseEntityCopyWithImpl(this._value, this._then);
 
-  final Expense _value;
+  final ExpenseEntity _value;
   // ignore: unused_field
-  final $Res Function(Expense) _then;
+  final $Res Function(ExpenseEntity) _then;
 
   @override
   $Res call({
@@ -97,54 +100,58 @@ class _$ExpenseCopyWithImpl<$Res> implements $ExpenseCopyWith<$Res> {
       category: category == freezed
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as Category,
+              as CategoryEntity,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as UserEntity,
     ));
   }
 
   @override
-  $CategoryCopyWith<$Res> get category {
-    return $CategoryCopyWith<$Res>(_value.category, (value) {
+  $CategoryEntityCopyWith<$Res> get category {
+    return $CategoryEntityCopyWith<$Res>(_value.category, (value) {
       return _then(_value.copyWith(category: value));
     });
   }
 
   @override
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $UserEntityCopyWith<$Res> get user {
+    return $UserEntityCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value));
     });
   }
 }
 
 /// @nodoc
-abstract class _$ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
-  factory _$ExpenseCopyWith(_Expense value, $Res Function(_Expense) then) =
-      __$ExpenseCopyWithImpl<$Res>;
+abstract class _$ExpenseEntityCopyWith<$Res>
+    implements $ExpenseEntityCopyWith<$Res> {
+  factory _$ExpenseEntityCopyWith(
+          _ExpenseEntity value, $Res Function(_ExpenseEntity) then) =
+      __$ExpenseEntityCopyWithImpl<$Res>;
   @override
   $Res call(
       {int id,
       int amount,
-      @JsonKey(name: 'categories') Category category,
-      @JsonKey(name: 'profiles') User user});
+      @JsonKey(name: 'categories') CategoryEntity category,
+      @JsonKey(name: 'profiles') UserEntity user});
 
   @override
-  $CategoryCopyWith<$Res> get category;
+  $CategoryEntityCopyWith<$Res> get category;
   @override
-  $UserCopyWith<$Res> get user;
+  $UserEntityCopyWith<$Res> get user;
 }
 
 /// @nodoc
-class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
-    implements _$ExpenseCopyWith<$Res> {
-  __$ExpenseCopyWithImpl(_Expense _value, $Res Function(_Expense) _then)
-      : super(_value, (v) => _then(v as _Expense));
+class __$ExpenseEntityCopyWithImpl<$Res>
+    extends _$ExpenseEntityCopyWithImpl<$Res>
+    implements _$ExpenseEntityCopyWith<$Res> {
+  __$ExpenseEntityCopyWithImpl(
+      _ExpenseEntity _value, $Res Function(_ExpenseEntity) _then)
+      : super(_value, (v) => _then(v as _ExpenseEntity));
 
   @override
-  _Expense get _value => super._value as _Expense;
+  _ExpenseEntity get _value => super._value as _ExpenseEntity;
 
   @override
   $Res call({
@@ -153,7 +160,7 @@ class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
     Object? category = freezed,
     Object? user = freezed,
   }) {
-    return _then(_Expense(
+    return _then(_ExpenseEntity(
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -165,11 +172,11 @@ class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
       category: category == freezed
           ? _value.category
           : category // ignore: cast_nullable_to_non_nullable
-              as Category,
+              as CategoryEntity,
       user: user == freezed
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as UserEntity,
     ));
   }
 }
@@ -177,15 +184,15 @@ class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_Expense with DiagnosticableTreeMixin implements _Expense {
-  _$_Expense(
+class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
+  _$_ExpenseEntity(
       {required this.id,
       required this.amount,
       @JsonKey(name: 'categories') required this.category,
       @JsonKey(name: 'profiles') required this.user});
 
-  factory _$_Expense.fromJson(Map<String, dynamic> json) =>
-      _$$_ExpenseFromJson(json);
+  factory _$_ExpenseEntity.fromJson(Map<String, dynamic> json) =>
+      _$$_ExpenseEntityFromJson(json);
 
   @override
   final int id;
@@ -193,21 +200,21 @@ class _$_Expense with DiagnosticableTreeMixin implements _Expense {
   final int amount;
   @override
   @JsonKey(name: 'categories')
-  final Category category;
+  final CategoryEntity category;
   @override
   @JsonKey(name: 'profiles')
-  final User user;
+  final UserEntity user;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Expense(id: $id, amount: $amount, category: $category, user: $user)';
+    return 'ExpenseEntity(id: $id, amount: $amount, category: $category, user: $user)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty('type', 'Expense'))
+      ..add(DiagnosticsProperty('type', 'ExpenseEntity'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('amount', amount))
       ..add(DiagnosticsProperty('category', category))
@@ -218,7 +225,7 @@ class _$_Expense with DiagnosticableTreeMixin implements _Expense {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Expense &&
+            other is _ExpenseEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.category, category) ||
@@ -231,23 +238,24 @@ class _$_Expense with DiagnosticableTreeMixin implements _Expense {
 
   @JsonKey(ignore: true)
   @override
-  _$ExpenseCopyWith<_Expense> get copyWith =>
-      __$ExpenseCopyWithImpl<_Expense>(this, _$identity);
+  _$ExpenseEntityCopyWith<_ExpenseEntity> get copyWith =>
+      __$ExpenseEntityCopyWithImpl<_ExpenseEntity>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ExpenseToJson(this);
+    return _$$_ExpenseEntityToJson(this);
   }
 }
 
-abstract class _Expense implements Expense {
-  factory _Expense(
+abstract class _ExpenseEntity implements ExpenseEntity {
+  factory _ExpenseEntity(
       {required int id,
       required int amount,
-      @JsonKey(name: 'categories') required Category category,
-      @JsonKey(name: 'profiles') required User user}) = _$_Expense;
+      @JsonKey(name: 'categories') required CategoryEntity category,
+      @JsonKey(name: 'profiles') required UserEntity user}) = _$_ExpenseEntity;
 
-  factory _Expense.fromJson(Map<String, dynamic> json) = _$_Expense.fromJson;
+  factory _ExpenseEntity.fromJson(Map<String, dynamic> json) =
+      _$_ExpenseEntity.fromJson;
 
   @override
   int get id;
@@ -255,12 +263,12 @@ abstract class _Expense implements Expense {
   int get amount;
   @override
   @JsonKey(name: 'categories')
-  Category get category;
+  CategoryEntity get category;
   @override
   @JsonKey(name: 'profiles')
-  User get user;
+  UserEntity get user;
   @override
   @JsonKey(ignore: true)
-  _$ExpenseCopyWith<_Expense> get copyWith =>
+  _$ExpenseEntityCopyWith<_ExpenseEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }

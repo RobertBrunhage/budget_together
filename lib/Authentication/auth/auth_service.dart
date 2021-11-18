@@ -1,4 +1,4 @@
-import 'package:budget_together/Authentication/entities/user.dart';
+import 'package:budget_together/Authentication/models/user.dart';
 import 'package:budget_together/Authentication/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +13,6 @@ class AuthService {
   });
 
   Future<void> createOrUpdateUser(User user) async {
-    await userRepository.createOrUpdateUser(user);
+    await userRepository.createOrUpdateUser(user.toEntity());
   }
 }

@@ -61,7 +61,6 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                           itemBuilder: (context, index) {
                             final expense = household!.expenses[index];
                             return ListTile(
-                              // TODO: Expense should be correct
                               title: Text('${expense.amount} SEK'),
                               subtitle: Text(expense.user.name),
                               trailing: Text(expense.category.name),

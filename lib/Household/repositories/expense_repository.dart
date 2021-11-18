@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:budget_together/Authentication/login.dart';
-import 'package:budget_together/Household/entities/expense/expense.dart';
+import 'package:budget_together/Household/entities/expense/expense_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
@@ -9,7 +9,7 @@ final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
 });
 
 class ExpenseRepository {
-  Future<List<Expense>?> fetchExpenses(int householdId) async {
+  Future<List<ExpenseEntity>?> fetchExpenses(int householdId) async {
     final response = await supabase
         .from('expenses')
         .select('id, amount, categories (id, name), profiles (id, name)')
@@ -17,12 +17,13 @@ class ExpenseRepository {
         .execute();
 
     final expenses =
-        List.from(response.data).map((e) => Expense.fromJson(e)).toList();
+        List.from(response.data).map((e) => ExpenseEntity.fromJson(e)).toList();
 
     return expenses;
   }
 
-  Future<Expense> createExpense(Expense expense, householdId) async {
+  Future<ExpenseEntity> createExpense(
+      ExpenseEntity expense, householdId) async {
     try {
       final response = await supabase.from('expenses').insert({
         'amount': expense.amount,

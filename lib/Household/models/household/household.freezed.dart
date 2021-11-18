@@ -13,10 +13,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Household _$HouseholdFromJson(Map<String, dynamic> json) {
-  return _Household.fromJson(json);
-}
-
 /// @nodoc
 class _$HouseholdTearOff {
   const _$HouseholdTearOff();
@@ -25,17 +21,13 @@ class _$HouseholdTearOff {
       {required int id,
       required String creator,
       required String name,
-      @JsonKey(name: 'expenses') required List<Expense> expenses}) {
+      required List<Expense> expenses}) {
     return _Household(
       id: id,
       creator: creator,
       name: name,
       expenses: expenses,
     );
-  }
-
-  Household fromJson(Map<String, Object?> json) {
-    return Household.fromJson(json);
   }
 }
 
@@ -47,10 +39,8 @@ mixin _$Household {
   int get id => throw _privateConstructorUsedError;
   String get creator => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'expenses')
   List<Expense> get expenses => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $HouseholdCopyWith<Household> get copyWith =>
       throw _privateConstructorUsedError;
@@ -60,11 +50,7 @@ mixin _$Household {
 abstract class $HouseholdCopyWith<$Res> {
   factory $HouseholdCopyWith(Household value, $Res Function(Household) then) =
       _$HouseholdCopyWithImpl<$Res>;
-  $Res call(
-      {int id,
-      String creator,
-      String name,
-      @JsonKey(name: 'expenses') List<Expense> expenses});
+  $Res call({int id, String creator, String name, List<Expense> expenses});
 }
 
 /// @nodoc
@@ -109,11 +95,7 @@ abstract class _$HouseholdCopyWith<$Res> implements $HouseholdCopyWith<$Res> {
           _Household value, $Res Function(_Household) then) =
       __$HouseholdCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {int id,
-      String creator,
-      String name,
-      @JsonKey(name: 'expenses') List<Expense> expenses});
+  $Res call({int id, String creator, String name, List<Expense> expenses});
 }
 
 /// @nodoc
@@ -155,16 +137,13 @@ class __$HouseholdCopyWithImpl<$Res> extends _$HouseholdCopyWithImpl<$Res>
 
 /// @nodoc
 
-@JsonSerializable(explicitToJson: true)
-class _$_Household with DiagnosticableTreeMixin implements _Household {
+class _$_Household extends _Household with DiagnosticableTreeMixin {
   _$_Household(
       {required this.id,
       required this.creator,
       required this.name,
-      @JsonKey(name: 'expenses') required this.expenses});
-
-  factory _$_Household.fromJson(Map<String, dynamic> json) =>
-      _$$_HouseholdFromJson(json);
+      required this.expenses})
+      : super._();
 
   @override
   final int id;
@@ -173,7 +152,6 @@ class _$_Household with DiagnosticableTreeMixin implements _Household {
   @override
   final String name;
   @override
-  @JsonKey(name: 'expenses')
   final List<Expense> expenses;
 
   @override
@@ -211,23 +189,15 @@ class _$_Household with DiagnosticableTreeMixin implements _Household {
   @override
   _$HouseholdCopyWith<_Household> get copyWith =>
       __$HouseholdCopyWithImpl<_Household>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_HouseholdToJson(this);
-  }
 }
 
-abstract class _Household implements Household {
+abstract class _Household extends Household {
   factory _Household(
-          {required int id,
-          required String creator,
-          required String name,
-          @JsonKey(name: 'expenses') required List<Expense> expenses}) =
-      _$_Household;
-
-  factory _Household.fromJson(Map<String, dynamic> json) =
-      _$_Household.fromJson;
+      {required int id,
+      required String creator,
+      required String name,
+      required List<Expense> expenses}) = _$_Household;
+  _Household._() : super._();
 
   @override
   int get id;
@@ -236,7 +206,6 @@ abstract class _Household implements Household {
   @override
   String get name;
   @override
-  @JsonKey(name: 'expenses')
   List<Expense> get expenses;
   @override
   @JsonKey(ignore: true)
