@@ -54,7 +54,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                     children: [
                       Text(household?.name ?? ''),
                       Text(
-                          '${household?.expenses.fold<double>(0, (previousValue, element) => previousValue + element.amount)} SEK'),
+                          '${household?.spentThisMonth ?? 0} SEK spent this month'),
                       Expanded(
                         child: ListView.builder(
                           itemCount: household?.expenses.length ?? 0,
@@ -64,6 +64,8 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
                               title: Text('${expense.amount} SEK'),
                               subtitle: Text(expense.user.name),
                               trailing: Text(expense.category.name),
+                              isThreeLine: true,
+                              leading: Text(expense.date.toIso8601String()),
                               onLongPress: () => ref
                                   .read(householdControllerProvider.notifier)
                                   .deleteExpense(expense.id),

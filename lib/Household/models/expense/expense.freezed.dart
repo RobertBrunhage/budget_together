@@ -21,12 +21,14 @@ class _$ExpenseTearOff {
       {required int id,
       required double amount,
       required Category category,
-      required User user}) {
+      required User user,
+      required DateTime date}) {
     return _Expense(
       id: id,
       amount: amount,
       category: category,
       user: user,
+      date: date,
     );
   }
 }
@@ -40,6 +42,7 @@ mixin _$Expense {
   double get amount => throw _privateConstructorUsedError;
   Category get category => throw _privateConstructorUsedError;
   User get user => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ExpenseCopyWith<Expense> get copyWith => throw _privateConstructorUsedError;
@@ -49,7 +52,8 @@ mixin _$Expense {
 abstract class $ExpenseCopyWith<$Res> {
   factory $ExpenseCopyWith(Expense value, $Res Function(Expense) then) =
       _$ExpenseCopyWithImpl<$Res>;
-  $Res call({int id, double amount, Category category, User user});
+  $Res call(
+      {int id, double amount, Category category, User user, DateTime date});
 
   $CategoryCopyWith<$Res> get category;
   $UserCopyWith<$Res> get user;
@@ -69,6 +73,7 @@ class _$ExpenseCopyWithImpl<$Res> implements $ExpenseCopyWith<$Res> {
     Object? amount = freezed,
     Object? category = freezed,
     Object? user = freezed,
+    Object? date = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -87,6 +92,10 @@ class _$ExpenseCopyWithImpl<$Res> implements $ExpenseCopyWith<$Res> {
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 
@@ -110,7 +119,8 @@ abstract class _$ExpenseCopyWith<$Res> implements $ExpenseCopyWith<$Res> {
   factory _$ExpenseCopyWith(_Expense value, $Res Function(_Expense) then) =
       __$ExpenseCopyWithImpl<$Res>;
   @override
-  $Res call({int id, double amount, Category category, User user});
+  $Res call(
+      {int id, double amount, Category category, User user, DateTime date});
 
   @override
   $CategoryCopyWith<$Res> get category;
@@ -133,6 +143,7 @@ class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? category = freezed,
     Object? user = freezed,
+    Object? date = freezed,
   }) {
     return _then(_Expense(
       id: id == freezed
@@ -151,6 +162,10 @@ class __$ExpenseCopyWithImpl<$Res> extends _$ExpenseCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as User,
+      date: date == freezed
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -162,7 +177,8 @@ class _$_Expense extends _Expense with DiagnosticableTreeMixin {
       {required this.id,
       required this.amount,
       required this.category,
-      required this.user})
+      required this.user,
+      required this.date})
       : super._();
 
   @override
@@ -173,10 +189,12 @@ class _$_Expense extends _Expense with DiagnosticableTreeMixin {
   final Category category;
   @override
   final User user;
+  @override
+  final DateTime date;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Expense(id: $id, amount: $amount, category: $category, user: $user)';
+    return 'Expense(id: $id, amount: $amount, category: $category, user: $user, date: $date)';
   }
 
   @override
@@ -187,7 +205,8 @@ class _$_Expense extends _Expense with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('amount', amount))
       ..add(DiagnosticsProperty('category', category))
-      ..add(DiagnosticsProperty('user', user));
+      ..add(DiagnosticsProperty('user', user))
+      ..add(DiagnosticsProperty('date', date));
   }
 
   @override
@@ -199,11 +218,13 @@ class _$_Expense extends _Expense with DiagnosticableTreeMixin {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.date, date) || other.date == date));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, amount, category, user);
+  int get hashCode =>
+      Object.hash(runtimeType, id, amount, category, user, date);
 
   @JsonKey(ignore: true)
   @override
@@ -216,7 +237,8 @@ abstract class _Expense extends Expense {
       {required int id,
       required double amount,
       required Category category,
-      required User user}) = _$_Expense;
+      required User user,
+      required DateTime date}) = _$_Expense;
   _Expense._() : super._();
 
   @override
@@ -227,6 +249,8 @@ abstract class _Expense extends Expense {
   Category get category;
   @override
   User get user;
+  @override
+  DateTime get date;
   @override
   @JsonKey(ignore: true)
   _$ExpenseCopyWith<_Expense> get copyWith =>

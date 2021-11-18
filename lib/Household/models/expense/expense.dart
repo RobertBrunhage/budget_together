@@ -14,6 +14,7 @@ class Expense with _$Expense {
     required double amount,
     required Category category,
     required User user,
+    required DateTime date,
   }) = _Expense;
 
   factory Expense.fromEntity(ExpenseEntity expenseEntity) {
@@ -22,6 +23,7 @@ class Expense with _$Expense {
       amount: (expenseEntity.amount / 100),
       category: Category.fromEntity(expenseEntity.category),
       user: User.fromEntity(expenseEntity.user),
+      date: expenseEntity.transactionDate,
     );
   }
 
@@ -31,7 +33,7 @@ class Expense with _$Expense {
       amount: (amount * 100).toInt(),
       category: category.toEntity(),
       user: user.toEntity(),
-      transactionDate: DateTime.now(),
+      transactionDate: date,
     );
   }
 }

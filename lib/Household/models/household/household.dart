@@ -26,6 +26,15 @@ class Household with _$Household {
     );
   }
 
+  double get spentThisMonth {
+    return expenses.fold<double>(0, (previousValue, element) {
+      if (element.date.month == DateTime.now().month) {
+        return previousValue + element.amount;
+      }
+      return previousValue;
+    });
+  }
+
   HouseholdEntity toEntity() {
     return HouseholdEntity(
       id: id,
