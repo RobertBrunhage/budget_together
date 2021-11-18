@@ -25,12 +25,14 @@ class _$ExpenseEntityTearOff {
       {required int id,
       required int amount,
       @JsonKey(name: 'categories') required CategoryEntity category,
-      @JsonKey(name: 'profiles') required UserEntity user}) {
+      @JsonKey(name: 'profiles') required UserEntity user,
+      @JsonKey(name: 'transaction_date') required DateTime transactionDate}) {
     return _ExpenseEntity(
       id: id,
       amount: amount,
       category: category,
       user: user,
+      transactionDate: transactionDate,
     );
   }
 
@@ -50,6 +52,8 @@ mixin _$ExpenseEntity {
   CategoryEntity get category => throw _privateConstructorUsedError;
   @JsonKey(name: 'profiles')
   UserEntity get user => throw _privateConstructorUsedError;
+  @JsonKey(name: 'transaction_date')
+  DateTime get transactionDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -66,7 +70,8 @@ abstract class $ExpenseEntityCopyWith<$Res> {
       {int id,
       int amount,
       @JsonKey(name: 'categories') CategoryEntity category,
-      @JsonKey(name: 'profiles') UserEntity user});
+      @JsonKey(name: 'profiles') UserEntity user,
+      @JsonKey(name: 'transaction_date') DateTime transactionDate});
 
   $CategoryEntityCopyWith<$Res> get category;
   $UserEntityCopyWith<$Res> get user;
@@ -87,6 +92,7 @@ class _$ExpenseEntityCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? category = freezed,
     Object? user = freezed,
+    Object? transactionDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: id == freezed
@@ -105,6 +111,10 @@ class _$ExpenseEntityCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserEntity,
+      transactionDate: transactionDate == freezed
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 
@@ -134,7 +144,8 @@ abstract class _$ExpenseEntityCopyWith<$Res>
       {int id,
       int amount,
       @JsonKey(name: 'categories') CategoryEntity category,
-      @JsonKey(name: 'profiles') UserEntity user});
+      @JsonKey(name: 'profiles') UserEntity user,
+      @JsonKey(name: 'transaction_date') DateTime transactionDate});
 
   @override
   $CategoryEntityCopyWith<$Res> get category;
@@ -159,6 +170,7 @@ class __$ExpenseEntityCopyWithImpl<$Res>
     Object? amount = freezed,
     Object? category = freezed,
     Object? user = freezed,
+    Object? transactionDate = freezed,
   }) {
     return _then(_ExpenseEntity(
       id: id == freezed
@@ -177,6 +189,10 @@ class __$ExpenseEntityCopyWithImpl<$Res>
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
               as UserEntity,
+      transactionDate: transactionDate == freezed
+          ? _value.transactionDate
+          : transactionDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -189,7 +205,8 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
       {required this.id,
       required this.amount,
       @JsonKey(name: 'categories') required this.category,
-      @JsonKey(name: 'profiles') required this.user});
+      @JsonKey(name: 'profiles') required this.user,
+      @JsonKey(name: 'transaction_date') required this.transactionDate});
 
   factory _$_ExpenseEntity.fromJson(Map<String, dynamic> json) =>
       _$$_ExpenseEntityFromJson(json);
@@ -204,10 +221,13 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
   @override
   @JsonKey(name: 'profiles')
   final UserEntity user;
+  @override
+  @JsonKey(name: 'transaction_date')
+  final DateTime transactionDate;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ExpenseEntity(id: $id, amount: $amount, category: $category, user: $user)';
+    return 'ExpenseEntity(id: $id, amount: $amount, category: $category, user: $user, transactionDate: $transactionDate)';
   }
 
   @override
@@ -218,7 +238,8 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('amount', amount))
       ..add(DiagnosticsProperty('category', category))
-      ..add(DiagnosticsProperty('user', user));
+      ..add(DiagnosticsProperty('user', user))
+      ..add(DiagnosticsProperty('transactionDate', transactionDate));
   }
 
   @override
@@ -230,11 +251,14 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.user, user) || other.user == user));
+            (identical(other.user, user) || other.user == user) &&
+            (identical(other.transactionDate, transactionDate) ||
+                other.transactionDate == transactionDate));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, amount, category, user);
+  int get hashCode =>
+      Object.hash(runtimeType, id, amount, category, user, transactionDate);
 
   @JsonKey(ignore: true)
   @override
@@ -251,8 +275,12 @@ abstract class _ExpenseEntity implements ExpenseEntity {
   factory _ExpenseEntity(
       {required int id,
       required int amount,
-      @JsonKey(name: 'categories') required CategoryEntity category,
-      @JsonKey(name: 'profiles') required UserEntity user}) = _$_ExpenseEntity;
+      @JsonKey(name: 'categories')
+          required CategoryEntity category,
+      @JsonKey(name: 'profiles')
+          required UserEntity user,
+      @JsonKey(name: 'transaction_date')
+          required DateTime transactionDate}) = _$_ExpenseEntity;
 
   factory _ExpenseEntity.fromJson(Map<String, dynamic> json) =
       _$_ExpenseEntity.fromJson;
@@ -267,6 +295,9 @@ abstract class _ExpenseEntity implements ExpenseEntity {
   @override
   @JsonKey(name: 'profiles')
   UserEntity get user;
+  @override
+  @JsonKey(name: 'transaction_date')
+  DateTime get transactionDate;
   @override
   @JsonKey(ignore: true)
   _$ExpenseEntityCopyWith<_ExpenseEntity> get copyWith =>

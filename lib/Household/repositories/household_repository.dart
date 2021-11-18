@@ -34,7 +34,7 @@ class HouseholdRepository {
     final response = await supabase
         .from('household_profiles')
         .select(
-            'households (id, name, creator, expenses (id, amount, categories (id, name), profiles (id, name)))')
+            'households (id, name, creator, expenses (id, amount, transaction_date, categories (id, name), profiles (id, name)))')
         .eq('profile_id', userId)
         .execute();
 

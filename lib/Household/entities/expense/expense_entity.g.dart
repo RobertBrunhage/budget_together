@@ -13,6 +13,7 @@ _$_ExpenseEntity _$$_ExpenseEntityFromJson(Map<String, dynamic> json) =>
       category:
           CategoryEntity.fromJson(json['categories'] as Map<String, dynamic>),
       user: UserEntity.fromJson(json['profiles'] as Map<String, dynamic>),
+      transactionDate: DateTime.parse(json['transaction_date'] as String),
     );
 
 Map<String, dynamic> _$$_ExpenseEntityToJson(_$_ExpenseEntity instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$_ExpenseEntityToJson(_$_ExpenseEntity instance) =>
       'amount': instance.amount,
       'categories': instance.category.toJson(),
       'profiles': instance.user.toJson(),
+      'transaction_date': instance.transactionDate.toIso8601String(),
     };

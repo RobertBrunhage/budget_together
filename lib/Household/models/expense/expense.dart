@@ -31,6 +31,7 @@ class Expense with _$Expense {
       amount: (amount * 100).toInt(),
       category: category.toEntity(),
       user: user.toEntity(),
+      transactionDate: DateTime.now(),
     );
   }
 }

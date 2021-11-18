@@ -12,7 +12,8 @@ class ExpenseRepository {
   Future<List<ExpenseEntity>?> fetchExpenses(int householdId) async {
     final response = await supabase
         .from('expenses')
-        .select('id, amount, categories (id, name), profiles (id, name)')
+        .select(
+            'id, amount, transaction_date, categories (id, name), profiles (id, name)')
         .eq('household_id', householdId)
         .execute();
 
@@ -25,11 +26,12 @@ class ExpenseRepository {
   Future<ExpenseEntity> createExpense(
       ExpenseEntity expense, householdId) async {
     try {
+      // TODO: This is not the correct approach. We need to use toJson in some way.
       final response = await supabase.from('expenses').insert({
         'amount': expense.amount,
         'profile_id': expense.user.id,
         'household_id': householdId,
-        'transaction_date': DateTime.now().toIso8601String(),
+        'transaction_date': expense.transactionDate.toIso8601String(),
         'category_id': expense.category.id,
       }).execute();
 

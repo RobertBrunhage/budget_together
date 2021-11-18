@@ -14,6 +14,7 @@ class ExpenseEntity with _$ExpenseEntity {
     required int amount,
     @JsonKey(name: 'categories') required CategoryEntity category,
     @JsonKey(name: 'profiles') required UserEntity user,
+    @JsonKey(name: 'transaction_date') required DateTime transactionDate,
   }) = _ExpenseEntity;
 
   factory ExpenseEntity.fromJson(Map<String, dynamic> json) =>

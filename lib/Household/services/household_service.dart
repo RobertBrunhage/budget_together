@@ -67,12 +67,14 @@ class HouseholdService {
     double amount,
     Category category,
     int householdId,
+    DateTime date,
   ) async {
     final expense = ExpenseEntity(
       id: -1,
       amount: (amount * 100).toInt(),
       category: category.toEntity(),
       user: UserEntity(id: userId, name: ''),
+      transactionDate: date,
     );
     await _expenseRepository.createExpense(expense, householdId);
   }

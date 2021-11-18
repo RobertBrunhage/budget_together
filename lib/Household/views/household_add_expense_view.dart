@@ -1,6 +1,7 @@
 import 'package:budget_together/Household/controllers/category_controller.dart';
 import 'package:budget_together/Household/controllers/household_controller.dart';
 import 'package:budget_together/Household/models/category/category.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,6 +18,7 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
   final _formKey = GlobalKey<FormState>();
 
   String expense = '';
+  DateTime date = DateTime.now();
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Spacer(),
               TextFormField(
                 // The validator receives the text that the user has entered.
                 validator: (value) {
@@ -57,18 +60,18 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                   });
                 },
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState!.validate()) {
-                    ref
-                        .read(householdControllerProvider.notifier)
-                        .createExpense(double.parse(expense));
-
-                    context.go('/household');
-                  }
-                },
-                child: const Text('add expense'),
+              SizedBox(
+                height: 200,
+                child: CupertinoDatePicker(
+                  mode: CupertinoDatePickerMode.date,
+                  initialDateTime: date,
+                  onDateTimeChanged: (DateTime newDateTime) {
+                    // Do something
+                    setState(() {
+                      date = newDateTime;
+                    });
+                  },
+                ),
               ),
               ref.watch(categoryControllerProvider).categories.when(
                     data: (categories) {
@@ -99,6 +102,22 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                     error: (e, s) => Text(e.toString()),
                     loading: () => const CircularProgressIndicator(),
                   ),
+              const Spacer(),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    ref
+                        .read(householdControllerProvider.notifier)
+                        .createExpense(
+                          double.parse(expense),
+                          date,
+                        );
+
+                    context.go('/household');
+                  }
+                },
+                child: const Text('add expense'),
+              ),
             ],
           ),
         ),
