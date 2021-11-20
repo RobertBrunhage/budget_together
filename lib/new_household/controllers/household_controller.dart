@@ -101,8 +101,11 @@ class HouseholdController extends StateNotifier<HouseholdState> {
   }
 
   Future<void> fetchExpenses() async {
-    final expenses =
-        await _householdService.fetchExpenses(state.household.value!.id);
+    final expenses = await _householdService.fetchExpenses(
+      state.household.value!.id,
+      state.selectedYear,
+      state.selectedMonth,
+    );
 
     state = state.copyWith(
         household: AsyncValue.data(

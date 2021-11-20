@@ -1,8 +1,8 @@
 import 'package:budget_together/core/organisms/add_expense_bottom_sheet.dart';
+import 'package:budget_together/core/organisms/selectors/month_selector.dart';
+import 'package:budget_together/core/organisms/selectors/year_selector.dart';
 import 'package:budget_together/new_household/controllers/household_controller.dart';
 import 'package:budget_together/new_household/models/household/household.dart';
-import 'package:budget_together/new_household/widgets/month_selector.dart';
-import 'package:budget_together/new_household/widgets/year_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -42,6 +42,7 @@ class CustomAppBarDelegate extends SliverPersistentHeaderDelegate {
         ],
       ),
       child: ListView(
+        primary: false,
         children: [
           _CustomAppBar(household: household),
           const YearSelectorList(),
