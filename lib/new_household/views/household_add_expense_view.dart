@@ -1,3 +1,4 @@
+import 'package:budget_together/core/atoms/form_elements/custom_input.dart';
 import 'package:budget_together/new_household/controllers/category_controller.dart';
 import 'package:budget_together/new_household/controllers/household_controller.dart';
 import 'package:budget_together/new_household/models/category/category.dart';
@@ -38,8 +39,9 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              TextFormField(
+              CustomFormInput(
                 // The validator receives the text that the user has entered.
+                label: 'Summa',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
@@ -59,6 +61,7 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                     expense = value;
                   });
                 },
+                errorMessage: 'no',
               ),
               SizedBox(
                 height: 200,
