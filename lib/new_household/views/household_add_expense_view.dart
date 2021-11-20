@@ -1,4 +1,5 @@
-import 'package:budget_together/core/atoms/form_elements/custom_input.dart';
+import 'package:budget_together/core/atoms/form_elements/custom_dropdown.dart';
+import 'package:budget_together/core/atoms/form_elements/custom_form_input.dart';
 import 'package:budget_together/new_household/controllers/category_controller.dart';
 import 'package:budget_together/new_household/controllers/household_controller.dart';
 import 'package:budget_together/new_household/models/category/category.dart';
@@ -78,16 +79,9 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
               ),
               ref.watch(categoryControllerProvider).categories.when(
                     data: (categories) {
-                      return DropdownButton<Category>(
+                      return CustomDropdownButton<Category>(
+                          label: 'Kategori',
                           value: ref.watch(categoryControllerProvider).category,
-                          icon: const Icon(Icons.arrow_downward),
-                          iconSize: 24,
-                          elevation: 16,
-                          style: const TextStyle(color: Colors.deepPurple),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.deepPurpleAccent,
-                          ),
                           onChanged: (newValue) {
                             setState(() {
                               ref

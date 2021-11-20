@@ -27,6 +27,12 @@ class _CustomFormInputState extends State<CustomFormInput> {
   final FocusNode _focusNode = FocusNode();
 
   @override
+  void dispose() {
+    super.dispose();
+    _focusNode.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _focusNode.requestFocus,
