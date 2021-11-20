@@ -1,10 +1,10 @@
+import 'package:budget_together/core/organisms/add_expense_bottom_sheet.dart';
 import 'package:budget_together/new_household/controllers/household_controller.dart';
 import 'package:budget_together/new_household/models/household/household.dart';
 import 'package:budget_together/new_household/widgets/month_selector.dart';
 import 'package:budget_together/new_household/widgets/year_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class CustomAppBarDelegate extends SliverPersistentHeaderDelegate {
   CustomAppBarDelegate({
@@ -80,10 +80,26 @@ class _CustomAppBar extends StatelessWidget {
         Text(household?.name ?? ''),
         const Spacer(),
         IconButton(
-          onPressed: () => context.go('/household/add-expense'),
+          onPressed: () => openAddExpenseSheet(context),
           icon: const Icon(Icons.add),
         )
       ],
+    );
+  }
+
+  void openAddExpenseSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return const AddExpenseBottomSheet();
+      },
     );
   }
 }

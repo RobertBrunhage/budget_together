@@ -1,29 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CustomFormInput extends StatefulWidget {
-  const CustomFormInput({
+class CustomFormField extends FormField<String> {
+  CustomFormField({
     Key? key,
-    this.validator,
-    this.keyboardType,
-    this.inputFormatters,
-    this.onChanged,
-    required this.errorMessage,
-    required this.label,
-  }) : super(key: key);
-
-  final FormFieldValidator<String>? validator;
-  final TextInputType? keyboardType;
-  final List<TextInputFormatter>? inputFormatters;
-  final ValueChanged<String>? onChanged;
-  final String errorMessage;
-  final String label;
-
-  @override
-  State<CustomFormInput> createState() => _CustomFormInputState();
+    String? initialValue,
+    FormFieldSetter<String>? onSaved,
+    FormFieldValidator<String>? validator,
+    TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
+    required String label,
+    required String errorMessage,
+  }) : super(
+            key: key,
+            onSaved: onSaved,
+            validator: validator,
+            initialValue: initialValue,
+            builder: (state) {
+              return _CustomFormInputAtom(
+                state: state,
+                label: label,
+                keyboardType: keyboardType,
+                inputFormatters: inputFormatters,
+              );
+            });
 }
 
-class _CustomFormInputState extends State<CustomFormInput> {
+class _CustomFormInputAtom extends StatefulWidget {
+  const _CustomFormInputAtom({
+    Key? key,
+    required this.state,
+    required this.label,
+    this.keyboardType,
+    this.inputFormatters,
+  }) : super(key: key);
+
+  // final FormFieldValidator<String>? validator;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  // final ValueChanged<String>? onChanged;
+  final String label;
+  final FormFieldState<String> state;
+
+  @override
+  State<_CustomFormInputAtom> createState() => _CustomFormInputAtomState();
+}
+
+class _CustomFormInputAtomState extends State<_CustomFormInputAtom> {
   final FocusNode _focusNode = FocusNode();
 
   @override
@@ -36,49 +59,62 @@ class _CustomFormInputState extends State<CustomFormInput> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _focusNode.requestFocus,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey.shade200),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                widget.label,
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade200),
+              borderRadius: BorderRadius.circular(4),
             ),
-            TextFormField(
-              focusNode: _focusNode,
-              validator: widget.validator,
-              keyboardType: widget.keyboardType,
-              inputFormatters: widget.inputFormatters,
-              onChanged: widget.onChanged,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    fontWeight: FontWeight.bold,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    widget.label,
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          color: !widget.state.hasError
+                              ? Colors.grey.shade600
+                              : Colors.red,
+                        ),
                   ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 4,
                 ),
-                isDense: true,
-                errorStyle: const TextStyle(height: 0),
-                labelStyle: Theme.of(context).textTheme.headline2!.copyWith(
-                      height: 0.8,
-                      color: widget.errorMessage.isEmpty
+                TextField(
+                  focusNode: _focusNode,
+                  keyboardType: widget.keyboardType,
+                  inputFormatters: widget.inputFormatters,
+                  onChanged: widget.state.didChange,
+                  style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 4,
+                    ),
+                    isDense: true,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (widget.state.hasError)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.state.errorText ?? '',
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(
+                      color: !widget.state.hasError
                           ? Colors.grey.shade600
                           : Colors.red,
                     ),
               ),
             ),
-          ],
-        ),
+        ],
       ),
     );
   }

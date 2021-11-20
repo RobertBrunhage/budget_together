@@ -79,6 +79,15 @@ class HouseholdService {
     await _expenseRepository.createExpense(expense, householdId);
   }
 
+  Future<Category> createCategory(String name, int householdId) async {
+    final categoryEntity = await _categoryRepository.createCategory(
+      CategoryEntity(id: -1, name: name),
+      householdId,
+    );
+
+    return Category.fromEntity(categoryEntity);
+  }
+
   Future<void> deleteExpense(int expenseId) async {
     await _expenseRepository.deleteExpense(expenseId);
   }

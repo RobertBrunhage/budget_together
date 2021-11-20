@@ -31,7 +31,7 @@ class CategoryRepository {
         'name': category.name,
       }).execute();
 
-      return CategoryEntity.fromJson(response.data);
+      return CategoryEntity.fromJson(response.data[0]);
     } catch (e) {
       throw HttpException(e.toString());
     }
