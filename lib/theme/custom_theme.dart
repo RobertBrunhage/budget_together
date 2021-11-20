@@ -6,6 +6,9 @@ abstract class CustomTheme {
     final theme = Theme.of(context);
     return ThemeData.light().copyWith(
       scaffoldBackgroundColor: Colors.white,
+      buttonTheme: ButtonThemeData(
+        alignedDropdown: true,
+      ),
       textTheme: GoogleFonts.quicksandTextTheme(
         theme.textTheme
             .copyWith(
