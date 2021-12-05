@@ -11,6 +11,5 @@ class CategoryEntity with _$CategoryEntity {
     required String name,
   }) = _CategoryEntity;
 
-  factory CategoryEntity.fromJson(Map<String, dynamic> json) =>
-      _$CategoryEntityFromJson(json);
+  factory CategoryEntity.fromJson(Map<String, dynamic> json) => _$CategoryEntityFromJson(json);
 }

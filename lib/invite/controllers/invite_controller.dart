@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class InviteState {}
 
-final inviteControllerProvider =
-    StateNotifierProvider<InviteController, InviteState>((ref) {
+final inviteControllerProvider = StateNotifierProvider<InviteController, InviteState>((ref) {
   return InviteController(
     ref.watch(inviteServiceProvider),
     ref.watch(householdControllerProvider.notifier),
@@ -13,8 +12,7 @@ final inviteControllerProvider =
 });
 
 class InviteController extends StateNotifier<InviteState> {
-  InviteController(this._inviteService, this._householdController)
-      : super(InviteState());
+  InviteController(this._inviteService, this._householdController) : super(InviteState());
 
   final InviteService _inviteService;
   final HouseholdController _householdController;

@@ -11,9 +11,7 @@ final householdRepositoryProvider = Provider<HouseholdRepository>((ref) {
 class HouseholdRepository {
   Future<int> createHousehold(String userId, String householdName) async {
     try {
-      final response = await supabase
-          .from('households')
-          .upsert({'creator': userId, 'name': householdName}).execute();
+      final response = await supabase.from('households').upsert({'creator': userId, 'name': householdName}).execute();
 
       final households = List.from(response.data);
 

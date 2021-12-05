@@ -7,8 +7,7 @@ class HouseholdInviteView extends ConsumerStatefulWidget {
   const HouseholdInviteView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HouseholdInviteView> createState() =>
-      _HouseholdCreateViewState();
+  ConsumerState<HouseholdInviteView> createState() => _HouseholdCreateViewState();
 }
 
 class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
@@ -41,9 +40,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    await ref
-                        .read(inviteControllerProvider.notifier)
-                        .invite(email);
+                    await ref.read(inviteControllerProvider.notifier).invite(email);
 
                     context.go('/household');
                   }

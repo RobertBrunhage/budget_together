@@ -19,8 +19,7 @@ class ExpenseEntity with _$ExpenseEntity {
         required DateTime transactionDate,
   }) = _ExpenseEntity;
 
-  factory ExpenseEntity.fromJson(Map<String, dynamic> json) =>
-      _$ExpenseEntityFromJson(json);
+  factory ExpenseEntity.fromJson(Map<String, dynamic> json) => _$ExpenseEntityFromJson(json);
 }
 
 DateTime _fromMilliseconds(int int) => DateTime.fromMillisecondsSinceEpoch(int);

@@ -1,5 +1,4 @@
 import 'package:budget_together/authentication/entities/user_entity.dart';
-import 'package:budget_together/authentication/login.dart';
 import 'package:budget_together/household/entities/category/category_entity.dart';
 import 'package:budget_together/household/entities/expense/expense_entity.dart';
 import 'package:budget_together/household/models/category/category.dart';
@@ -8,14 +7,12 @@ import 'package:budget_together/household/models/household/household.dart';
 import 'package:budget_together/household/repositories/category_repository.dart';
 import 'package:budget_together/household/repositories/expense_repository.dart';
 import 'package:budget_together/household/repositories/household_repository.dart';
-import 'package:budget_together/invite/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final householdServiceProvider = Provider<HouseholdService>((ref) {
   return HouseholdService(
     ref.watch(householdRepositoryProvider),
     ref.watch(expenseRepositoryProvider),
-    ref.watch(inviteRepositoryProvider),
     ref.watch(categoryRepositoryProvider),
   );
 });
@@ -23,30 +20,17 @@ final householdServiceProvider = Provider<HouseholdService>((ref) {
 class HouseholdService {
   final HouseholdRepository _householdRepository;
   final ExpenseRepository _expenseRepository;
-  final InviteRepository _inviteRepository;
   final CategoryRepository _categoryRepository;
 
   HouseholdService(
     this._householdRepository,
     this._expenseRepository,
-    this._inviteRepository,
     this._categoryRepository,
   );
 
   Future<void> createHousehold(String userId, String householdName) async {
-    final householdId =
-        await _householdRepository.createHousehold(userId, householdName);
-    await _categoryRepository.createCategory(
-        CategoryEntity(name: 'annat', id: -1), householdId);
-  }
-
-  Future<void> inviteUserToHousehold(String email, int householdId) async {
-    return _inviteRepository.invite(email, householdId);
-  }
-
-  Future<void> acceptAllInvites() {
-    return _inviteRepository
-        .acceptAllInvites(supabase.auth.currentUser!.email!);
+    final householdId = await _householdRepository.createHousehold(userId, householdName);
+    await _categoryRepository.createCategory(CategoryEntity(name: 'annat', id: -1), householdId);
   }
 
   Future<Household?> fetchHousehold(String userId) async {
@@ -56,7 +40,10 @@ class HouseholdService {
   }
 
   Future<List<Expense>?> fetchExpenses(
-      int householdId, int year, int month) async {
+    int householdId,
+    int year,
+    int month,
+  ) async {
     final startDate = DateTime(year, month);
     final endDate = DateTime(year, month + 1, 0);
     final expenseEntities = await _expenseRepository.fetchExpenses(
@@ -100,10 +87,8 @@ class HouseholdService {
   }
 
   Future<List<Category>?> fetchAllCategories(int householdId) async {
-    final categoryEntities =
-        await _categoryRepository.fetchCategories(householdId);
-    final categories =
-        categoryEntities?.map((e) => Category.fromEntity(e)).toList();
+    final categoryEntities = await _categoryRepository.fetchCategories(householdId);
+    final categories = categoryEntities?.map((e) => Category.fromEntity(e)).toList();
     return categories;
   }
 }

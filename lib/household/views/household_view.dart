@@ -81,8 +81,7 @@ class _Body extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return RefreshIndicator(
-      onRefresh: () async =>
-          ref.read(householdControllerProvider.notifier).fetchExpenses(),
+      onRefresh: () async => ref.read(householdControllerProvider.notifier).fetchExpenses(),
       child: CustomScrollView(
         slivers: [
           SliverPersistentHeader(

@@ -78,8 +78,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       );
     },
     redirect: (state) {
-      final loggedIn =
-          ref.watch(authControllerProvider).session == null ? false : true;
+      final loggedIn = ref.watch(authControllerProvider).session == null ? false : true;
 
       final goingToLogin = state.location == '/login';
       log('loggedIn: ' + loggedIn.toString());
@@ -113,8 +112,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         Locale('en', ''), // English, no country code
       ],
       scrollBehavior: const ScrollBehaviorModified(),
-      onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
       theme: CustomTheme.lightTheme(context),
     );
   }

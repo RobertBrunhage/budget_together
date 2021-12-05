@@ -9,8 +9,7 @@ class HouseholdCreateView extends ConsumerStatefulWidget {
   const HouseholdCreateView({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HouseholdCreateView> createState() =>
-      _HouseholdCreateViewState();
+  ConsumerState<HouseholdCreateView> createState() => _HouseholdCreateViewState();
 }
 
 class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
@@ -54,9 +53,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    await ref
-                        .read(householdControllerProvider.notifier)
-                        .createHousehold(
+                    await ref.read(householdControllerProvider.notifier).createHousehold(
                           supabase.auth.currentUser!.id,
                           username,
                         );

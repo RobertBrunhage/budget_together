@@ -45,8 +45,7 @@ class HouseholdState {
   int get hashCode => household.hashCode;
 }
 
-final householdControllerProvider =
-    StateNotifierProvider<HouseholdController, HouseholdState>((ref) {
+final householdControllerProvider = StateNotifierProvider<HouseholdController, HouseholdState>((ref) {
   return HouseholdController(
     ref.watch(householdServiceProvider),
     ref.watch(categoryControllerProvider.notifier),
@@ -82,8 +81,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
 
   Future<void> fetchHousehold() async {
     state = state.copyWith(household: const AsyncValue.loading());
-    final household =
-        await _householdService.fetchHousehold(supabase.auth.currentUser!.id);
+    final household = await _householdService.fetchHousehold(supabase.auth.currentUser!.id);
 
     state = state.copyWith(household: AsyncValue.data(household));
   }
@@ -95,9 +93,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
       state.selectedMonth,
     );
 
-    state = state.copyWith(
-        household: AsyncValue.data(
-            state.household.value!.copyWith(expenses: expenses ?? [])));
+    state = state.copyWith(household: AsyncValue.data(state.household.value!.copyWith(expenses: expenses ?? [])));
   }
 
   Future<void> createExpense(double amount, DateTime date) async {

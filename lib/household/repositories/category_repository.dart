@@ -10,21 +10,14 @@ final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
 
 class CategoryRepository {
   Future<List<CategoryEntity>?> fetchCategories(int householdId) async {
-    final response = await supabase
-        .from('categories')
-        .select('id, name')
-        .eq('household_id', householdId)
-        .execute();
+    final response = await supabase.from('categories').select('id, name').eq('household_id', householdId).execute();
 
-    final categories = List.from(response.data)
-        .map((e) => CategoryEntity.fromJson(e))
-        .toList();
+    final categories = List.from(response.data).map((e) => CategoryEntity.fromJson(e)).toList();
 
     return categories;
   }
 
-  Future<CategoryEntity> createCategory(
-      CategoryEntity category, householdId) async {
+  Future<CategoryEntity> createCategory(CategoryEntity category, householdId) async {
     try {
       final response = await supabase.from('categories').upsert({
         'household_id': householdId,

@@ -10,9 +10,7 @@ final inviteRepositoryProvider = Provider<InviteRepository>((ref) {
 class InviteRepository {
   Future<void> invite(String email, int householdId) async {
     try {
-      await supabase
-          .from('invites')
-          .upsert({'household_id': householdId, 'email': email}).execute();
+      await supabase.from('invites').upsert({'household_id': householdId, 'email': email}).execute();
     } catch (e) {
       throw HttpException(e.toString());
     }
@@ -20,16 +18,14 @@ class InviteRepository {
 
   Future<void> acceptAllInvites(String email) async {
     try {
-      final response =
-          await supabase.from('invites').select().eq('email', email).execute();
+      final response = await supabase.from('invites').select().eq('email', email).execute();
 
       final invites = List.from(response.data);
 
       for (var invite in invites) {
-        await supabase.from('household_profiles').upsert({
-          'household_id': invite['household_id'],
-          'profile_id': supabase.auth.currentUser!.id
-        }).execute();
+        await supabase
+            .from('household_profiles')
+            .upsert({'household_id': invite['household_id'], 'profile_id': supabase.auth.currentUser!.id}).execute();
 
         await supabase
             .from('invites')

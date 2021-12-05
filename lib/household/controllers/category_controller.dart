@@ -34,8 +34,7 @@ class CategoryState {
   int get hashCode => category.hashCode;
 }
 
-final categoryControllerProvider =
-    StateNotifierProvider<CategoryController, CategoryState>((ref) {
+final categoryControllerProvider = StateNotifierProvider<CategoryController, CategoryState>((ref) {
   return CategoryController(
     ref.watch(householdServiceProvider),
   );

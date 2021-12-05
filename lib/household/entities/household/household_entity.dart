@@ -15,6 +15,5 @@ class HouseholdEntity with _$HouseholdEntity {
     @JsonKey(name: 'expenses') required List<ExpenseEntity> expenses,
   }) = _HouseholdEntity;
 
-  factory HouseholdEntity.fromJson(Map<String, dynamic> json) =>
-      _$HouseholdEntityFromJson(json);
+  factory HouseholdEntity.fromJson(Map<String, dynamic> json) => _$HouseholdEntityFromJson(json);
 }
