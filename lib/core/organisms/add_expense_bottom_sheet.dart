@@ -1,9 +1,9 @@
 import 'package:budget_together/core/atoms/form_elements/custom_dropdown.dart';
 import 'package:budget_together/core/atoms/form_elements/custom_form_input.dart';
 import 'package:budget_together/core/atoms/form_elements/custom_radio_button.dart';
-import 'package:budget_together/new_household/controllers/category_controller.dart';
-import 'package:budget_together/new_household/controllers/household_controller.dart';
-import 'package:budget_together/new_household/models/category/category.dart';
+import 'package:budget_together/household/controllers/category_controller.dart';
+import 'package:budget_together/household/controllers/household_controller.dart';
+import 'package:budget_together/household/models/category/category.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

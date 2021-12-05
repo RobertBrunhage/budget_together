@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:budget_together/new_authentication/auth/auth_controller.dart';
-import 'package:budget_together/new_authentication/login.dart';
-import 'package:budget_together/new_household/controllers/splash.dart';
-import 'package:budget_together/new_household/views/household_add_expense_view.dart';
-import 'package:budget_together/new_household/views/household_create_view.dart';
-import 'package:budget_together/new_household/views/household_invite_view.dart';
-import 'package:budget_together/new_household/views/household_view.dart';
+import 'package:budget_together/authentication/auth/auth_controller.dart';
+import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/splash.dart';
+import 'package:budget_together/household/views/household_add_expense_view.dart';
+import 'package:budget_together/household/views/household_create_view.dart';
+import 'package:budget_together/household/views/household_invite_view.dart';
+import 'package:budget_together/household/views/household_view.dart';
 import 'package:budget_together/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
