@@ -7,9 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
+import '../../shared.dart';
 import '../../shared_mocks.dart';
-
-class MockSupabaseClient extends Mock implements supa.SupabaseClient {}
 
 void main() {
   late AuthService mockedAuthService;
@@ -27,7 +26,8 @@ void main() {
       ],
     );
 
-    when(() => mockedSupabaseClient.auth).thenReturn(supa.GoTrueClient());
+    // common
+    when(() => mockedSupabaseClient.auth).thenReturn(stubGoTrueClient());
     when(() => mockedAuthService.createOrUpdateUser(User(id: '', name: 'test')))
         .thenAnswer((invocation) => Future.value(null));
   });
