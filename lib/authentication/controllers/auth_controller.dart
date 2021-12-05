@@ -2,23 +2,30 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
-import '../login_view.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
+import '../supabase/supabase_provider.dart';
 
 final authControllerProvider = ChangeNotifierProvider<AuthController>((ref) {
-  return AuthController(ref.watch(authServiceProvider));
+  return AuthController(
+    ref.watch(authServiceProvider),
+    ref.watch(supabaseProvider),
+  );
 });
 
 class AuthController extends ChangeNotifier {
-  AuthController(this._authService) : super() {
-    supabase.auth.refreshSession();
-    _sub = supabase.auth.onAuthStateChange((event, session) {
+  AuthController(
+    this._authService,
+    this._supabaseClient,
+  ) : super() {
+    _supabaseClient.auth.refreshSession();
+    _sub = _supabaseClient.auth.onAuthStateChange((event, session) {
       setAuthState(session);
     });
   }
 
   final AuthService _authService;
+  final SupabaseClient _supabaseClient;
 
   late final GotrueSubscription _sub;
   Session? session;

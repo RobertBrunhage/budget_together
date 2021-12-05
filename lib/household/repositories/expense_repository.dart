@@ -1,21 +1,27 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
-import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../entities/expense/expense_entity.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((final ref) {
-  return ExpenseRepository();
+  return ExpenseRepository(
+    ref.watch(supabaseProvider),
+  );
 });
 
 class ExpenseRepository {
+  ExpenseRepository(this._supabaseClient);
+
+  final supa.SupabaseClient _supabaseClient;
   Future<List<ExpenseEntity>?> fetchExpenses(
     final int householdId,
     final DateTime startDate,
     final DateTime endDate,
   ) async {
-    final response = await supabase
+    final response = await _supabaseClient
         .from('expenses')
         .select('id, amount, transaction_date, categories (id, name), profiles (id, name)')
         .eq('household_id', householdId)
@@ -31,7 +37,7 @@ class ExpenseRepository {
 
   Future<ExpenseEntity> createExpense(final ExpenseEntity expense, final int householdId) async {
     // TODO(Robert): This is not the correct approach. We need to use toJson in some way.
-    final response = await supabase.from('expenses').insert(<String, dynamic>{
+    final response = await _supabaseClient.from('expenses').insert(<String, dynamic>{
       'amount': expense.amount,
       'profile_id': expense.user.id,
       'household_id': householdId,
@@ -49,7 +55,7 @@ class ExpenseRepository {
   }
 
   Future<void> deleteExpense(final int expenseId) async {
-    final response = await supabase.from('expenses').delete().eq('id', expenseId).execute();
+    final response = await _supabaseClient.from('expenses').delete().eq('id', expenseId).execute();
     if (response.error != null) {
       throw HttpException(response.error!.message);
     }

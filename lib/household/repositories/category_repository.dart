@@ -1,17 +1,24 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
-import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../entities/category/category_entity.dart';
 
 final categoryRepositoryProvider = Provider<CategoryRepository>((final ref) {
-  return CategoryRepository();
+  return CategoryRepository(
+    ref.watch(supabaseProvider),
+  );
 });
 
 class CategoryRepository {
+  CategoryRepository(this._supabaseClient);
+
+  final supa.SupabaseClient _supabaseClient;
   Future<List<CategoryEntity>?> fetchCategories(final int householdId) async {
-    final response = await supabase.from('categories').select('id, name').eq('household_id', householdId).execute();
+    final response =
+        await _supabaseClient.from('categories').select('id, name').eq('household_id', householdId).execute();
 
     final categories = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>)
         .map((final e) => CategoryEntity.fromJson(e))
@@ -21,7 +28,7 @@ class CategoryRepository {
   }
 
   Future<CategoryEntity> createCategory(final CategoryEntity category, final int householdId) async {
-    final response = await supabase.from('categories').upsert(<String, dynamic>{
+    final response = await _supabaseClient.from('categories').upsert(<String, dynamic>{
       'household_id': householdId,
       'name': category.name,
     }).execute();
@@ -36,7 +43,7 @@ class CategoryRepository {
   }
 
   Future<void> deleteExpense(final int expenseId) async {
-    final response = await supabase.from('expenses').delete().eq('id', expenseId).execute();
+    final response = await _supabaseClient.from('expenses').delete().eq('id', expenseId).execute();
     if (response.error != null) {
       throw HttpException(response.error!.message);
     }

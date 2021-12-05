@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../models/category/category.dart';
 import '../models/household/household.dart';
 import '../services/household_service.dart';
@@ -52,12 +53,16 @@ final householdControllerProvider = StateNotifierProvider<HouseholdController, H
   return HouseholdController(
     ref.watch(householdServiceProvider),
     ref.watch(categoryControllerProvider.notifier),
+    ref.watch(supabaseProvider),
   );
 });
 
 class HouseholdController extends StateNotifier<HouseholdState> {
-  HouseholdController(this._householdService, this._categoryController)
-      : super(
+  HouseholdController(
+    this._householdService,
+    this._categoryController,
+    this._supabaseClient,
+  ) : super(
           HouseholdState(
             household: const AsyncValue.loading(),
             categories: const AsyncValue.loading(),
@@ -70,6 +75,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
 
   final HouseholdService _householdService;
   final CategoryController _categoryController;
+  final SupabaseClient _supabaseClient;
 
   Future<void> createHousehold(String userId, String householdName) async {
     await _householdService.createHousehold(userId, householdName);
@@ -86,7 +92,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
 
   Future<void> fetchHousehold() async {
     state = state.copyWith(household: const AsyncValue.loading());
-    final household = await _householdService.fetchHousehold(supabase.auth.currentUser!.id);
+    final household = await _householdService.fetchHousehold(_supabaseClient.auth.currentUser!.id);
 
     state = state.copyWith(household: AsyncValue.data(household));
   }
@@ -104,7 +110,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
   Future<void> createExpense(double amount, DateTime date) async {
     final household = state.household.value!;
     await _householdService.createExpense(
-      supabase.auth.currentUser!.id,
+      _supabaseClient.auth.currentUser!.id,
       amount,
       _categoryController.state.category,
       household.id,

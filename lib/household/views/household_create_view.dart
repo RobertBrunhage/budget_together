@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../../invite/controllers/invite_controller.dart';
 import '../controllers/household_controller.dart';
 import 'household_view.dart';
@@ -57,8 +57,9 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
+                    final currentUserId = ref.read(supabaseProvider).auth.currentUser!.id;
                     await ref.read(householdControllerProvider.notifier).createHousehold(
-                          supabase.auth.currentUser!.id,
+                          currentUserId,
                           username,
                         );
                   }

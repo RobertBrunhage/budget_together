@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../../core/molecules/list_items/custom_list_tile.dart';
 import '../../invite/household_invite_view.dart';
 import '../controllers/household_controller.dart';
@@ -62,7 +63,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
   }
 
   Future<void> _signOut() async {
-    final response = await supabase.auth.signOut();
+    final response = await ref.read(supabaseProvider).auth.signOut();
 
     final error = response.error;
     if (error != null) {

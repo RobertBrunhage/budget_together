@@ -1,17 +1,25 @@
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
-import '../../authentication/login_view.dart';
+import '../../authentication/supabase/supabase_provider.dart';
 import '../entities/household/household_entity.dart';
 
 final householdRepositoryProvider = Provider<HouseholdRepository>((final ref) {
-  return HouseholdRepository();
+  return HouseholdRepository(
+    ref.watch(supabaseProvider),
+  );
 });
 
 class HouseholdRepository {
+  HouseholdRepository(this._supabaseClient);
+
+  final supa.SupabaseClient _supabaseClient;
+
   Future<int> createHousehold(final String userId, final String householdName) async {
-    final response = await supabase.from('households').upsert({'creator': userId, 'name': householdName}).execute();
+    final response =
+        await _supabaseClient.from('households').upsert({'creator': userId, 'name': householdName}).execute();
 
     if (response.error != null) {
       throw HttpException(response.error!.message);
@@ -21,7 +29,7 @@ class HouseholdRepository {
 
     final household = HouseholdEntity.fromJson(data[0]);
 
-    await supabase.from('household_profiles').upsert({
+    await _supabaseClient.from('household_profiles').upsert({
       'profile_id': userId,
       'household_id': household.id,
     }).execute();
@@ -30,7 +38,7 @@ class HouseholdRepository {
   }
 
   Future<HouseholdEntity?> fetchHousehold(final String userId) async {
-    final response = await supabase
+    final response = await _supabaseClient
         .from('household_profiles')
         .select(
           'households (id, name, creator, expenses (id, amount, transaction_date, categories (id, name), profiles (id, name)))',

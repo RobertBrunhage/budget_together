@@ -7,8 +7,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'supabase/auth_state.dart';
 
-final supabase = Supabase.instance.client;
-
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
   static String get route => 'login';
@@ -25,7 +23,7 @@ class _LoginViewState extends AuthState<LoginView> {
     setState(() {
       _isLoading = true;
     });
-    final response = await supabase.auth.signIn(
+    final response = await Supabase.instance.client.auth.signIn(
       email: _emailController.text,
       options: AuthOptions(redirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/'),
     );
