@@ -24,9 +24,12 @@ class _$ExpenseEntityTearOff {
   _ExpenseEntity call(
       {required int id,
       required int amount,
-      @JsonKey(name: 'categories') required CategoryEntity category,
-      @JsonKey(name: 'profiles') required UserEntity user,
-      @JsonKey(name: 'transaction_date') required DateTime transactionDate}) {
+      @JsonKey(name: 'categories')
+          required CategoryEntity category,
+      @JsonKey(name: 'profiles')
+          required UserEntity user,
+      @JsonKey(name: 'transaction_date', fromJson: _fromMilliseconds, toJson: _toMilliseconds)
+          required DateTime transactionDate}) {
     return _ExpenseEntity(
       id: id,
       amount: amount,
@@ -52,7 +55,10 @@ mixin _$ExpenseEntity {
   CategoryEntity get category => throw _privateConstructorUsedError;
   @JsonKey(name: 'profiles')
   UserEntity get user => throw _privateConstructorUsedError;
-  @JsonKey(name: 'transaction_date')
+  @JsonKey(
+      name: 'transaction_date',
+      fromJson: _fromMilliseconds,
+      toJson: _toMilliseconds)
   DateTime get transactionDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,9 +75,12 @@ abstract class $ExpenseEntityCopyWith<$Res> {
   $Res call(
       {int id,
       int amount,
-      @JsonKey(name: 'categories') CategoryEntity category,
-      @JsonKey(name: 'profiles') UserEntity user,
-      @JsonKey(name: 'transaction_date') DateTime transactionDate});
+      @JsonKey(name: 'categories')
+          CategoryEntity category,
+      @JsonKey(name: 'profiles')
+          UserEntity user,
+      @JsonKey(name: 'transaction_date', fromJson: _fromMilliseconds, toJson: _toMilliseconds)
+          DateTime transactionDate});
 
   $CategoryEntityCopyWith<$Res> get category;
   $UserEntityCopyWith<$Res> get user;
@@ -143,9 +152,12 @@ abstract class _$ExpenseEntityCopyWith<$Res>
   $Res call(
       {int id,
       int amount,
-      @JsonKey(name: 'categories') CategoryEntity category,
-      @JsonKey(name: 'profiles') UserEntity user,
-      @JsonKey(name: 'transaction_date') DateTime transactionDate});
+      @JsonKey(name: 'categories')
+          CategoryEntity category,
+      @JsonKey(name: 'profiles')
+          UserEntity user,
+      @JsonKey(name: 'transaction_date', fromJson: _fromMilliseconds, toJson: _toMilliseconds)
+          DateTime transactionDate});
 
   @override
   $CategoryEntityCopyWith<$Res> get category;
@@ -200,13 +212,17 @@ class __$ExpenseEntityCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
+class _$_ExpenseEntity extends _ExpenseEntity with DiagnosticableTreeMixin {
   _$_ExpenseEntity(
       {required this.id,
       required this.amount,
-      @JsonKey(name: 'categories') required this.category,
-      @JsonKey(name: 'profiles') required this.user,
-      @JsonKey(name: 'transaction_date') required this.transactionDate});
+      @JsonKey(name: 'categories')
+          required this.category,
+      @JsonKey(name: 'profiles')
+          required this.user,
+      @JsonKey(name: 'transaction_date', fromJson: _fromMilliseconds, toJson: _toMilliseconds)
+          required this.transactionDate})
+      : super._();
 
   factory _$_ExpenseEntity.fromJson(Map<String, dynamic> json) =>
       _$$_ExpenseEntityFromJson(json);
@@ -222,7 +238,10 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
   @JsonKey(name: 'profiles')
   final UserEntity user;
   @override
-  @JsonKey(name: 'transaction_date')
+  @JsonKey(
+      name: 'transaction_date',
+      fromJson: _fromMilliseconds,
+      toJson: _toMilliseconds)
   final DateTime transactionDate;
 
   @override
@@ -271,7 +290,7 @@ class _$_ExpenseEntity with DiagnosticableTreeMixin implements _ExpenseEntity {
   }
 }
 
-abstract class _ExpenseEntity implements ExpenseEntity {
+abstract class _ExpenseEntity extends ExpenseEntity {
   factory _ExpenseEntity(
       {required int id,
       required int amount,
@@ -279,8 +298,9 @@ abstract class _ExpenseEntity implements ExpenseEntity {
           required CategoryEntity category,
       @JsonKey(name: 'profiles')
           required UserEntity user,
-      @JsonKey(name: 'transaction_date')
+      @JsonKey(name: 'transaction_date', fromJson: _fromMilliseconds, toJson: _toMilliseconds)
           required DateTime transactionDate}) = _$_ExpenseEntity;
+  _ExpenseEntity._() : super._();
 
   factory _ExpenseEntity.fromJson(Map<String, dynamic> json) =
       _$_ExpenseEntity.fromJson;
@@ -296,7 +316,10 @@ abstract class _ExpenseEntity implements ExpenseEntity {
   @JsonKey(name: 'profiles')
   UserEntity get user;
   @override
-  @JsonKey(name: 'transaction_date')
+  @JsonKey(
+      name: 'transaction_date',
+      fromJson: _fromMilliseconds,
+      toJson: _toMilliseconds)
   DateTime get transactionDate;
   @override
   @JsonKey(ignore: true)

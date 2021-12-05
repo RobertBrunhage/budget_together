@@ -55,8 +55,15 @@ class HouseholdService {
     return Household.fromEntity(householdEntity);
   }
 
-  Future<List<Expense>?> fetchExpenses(int householdId) async {
-    final expenseEntities = await _expenseRepository.fetchExpenses(householdId);
+  Future<List<Expense>?> fetchExpenses(
+      int householdId, int year, int month) async {
+    final startDate = DateTime(year, month);
+    final endDate = DateTime(year, month + 1, 0);
+    final expenseEntities = await _expenseRepository.fetchExpenses(
+      householdId,
+      startDate,
+      endDate,
+    );
     if (expenseEntities == null) return null;
 
     return expenseEntities.map((e) => Expense.fromEntity(e)).toList();
@@ -77,6 +84,15 @@ class HouseholdService {
       transactionDate: date,
     );
     await _expenseRepository.createExpense(expense, householdId);
+  }
+
+  Future<Category> createCategory(String name, int householdId) async {
+    final categoryEntity = await _categoryRepository.createCategory(
+      CategoryEntity(id: -1, name: name),
+      householdId,
+    );
+
+    return Category.fromEntity(categoryEntity);
   }
 
   Future<void> deleteExpense(int expenseId) async {

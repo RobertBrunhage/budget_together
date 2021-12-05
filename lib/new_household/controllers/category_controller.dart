@@ -60,6 +60,15 @@ class CategoryController extends StateNotifier<CategoryState> {
     );
   }
 
+  Future<Category> createCategory(int householdId, String name) async {
+    final category = await _householdService.createCategory(name, householdId);
+    state = state.copyWith(
+      category: category,
+      categories: AsyncValue.data([...state.categories.value!, category]),
+    );
+    return category;
+  }
+
   void setCategory(Category category) {
     state = state.copyWith(category: category);
   }

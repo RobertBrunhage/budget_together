@@ -41,9 +41,12 @@ class _MonthSelectorListState extends ConsumerState<MonthSelectorList> {
           final date = DateTime(dateNow.year, index + 1);
           return MonthToggle(
             month: date.month,
-            onTap: () => ref
-                .read(householdControllerProvider.notifier)
-                .setMonth(date.month),
+            onTap: () {
+              ref
+                  .read(householdControllerProvider.notifier)
+                  .setMonth(date.month);
+              ref.read(householdControllerProvider.notifier).fetchExpenses();
+            },
             isActive: ref.watch(householdControllerProvider).selectedMonth ==
                 date.month,
           );

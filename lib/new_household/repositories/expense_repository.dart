@@ -9,17 +9,19 @@ final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
 });
 
 class ExpenseRepository {
-  Future<List<ExpenseEntity>?> fetchExpenses(int householdId) async {
+  Future<List<ExpenseEntity>?> fetchExpenses(
+      int householdId, DateTime startDate, DateTime endDate) async {
     final response = await supabase
         .from('expenses')
         .select(
             'id, amount, transaction_date, categories (id, name), profiles (id, name)')
         .eq('household_id', householdId)
+        .gte('transaction_date', startDate.millisecondsSinceEpoch)
+        .lte('transaction_date', endDate.millisecondsSinceEpoch)
         .execute();
 
     final expenses =
         List.from(response.data).map((e) => ExpenseEntity.fromJson(e)).toList();
-
     return expenses;
   }
 
@@ -31,7 +33,7 @@ class ExpenseRepository {
         'amount': expense.amount,
         'profile_id': expense.user.id,
         'household_id': householdId,
-        'transaction_date': expense.transactionDate.toIso8601String(),
+        'transaction_date': expense.transactionDate.millisecondsSinceEpoch,
         'category_id': expense.category.id,
       }).execute();
 

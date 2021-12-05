@@ -22,9 +22,10 @@ class YearSelectorList extends ConsumerWidget {
           final itemYear = date.year - index;
           return YearItem(
             year: itemYear,
-            onTap: () => ref
-                .read(householdControllerProvider.notifier)
-                .setYear(itemYear),
+            onTap: () {
+              ref.read(householdControllerProvider.notifier).setYear(itemYear);
+              ref.read(householdControllerProvider.notifier).fetchExpenses();
+            },
             isActive:
                 ref.watch(householdControllerProvider).selectedYear == itemYear,
           );

@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
 
-class CustomRadioButton extends FormField<bool> {
-  CustomRadioButton({
+class CustomRadioButton extends StatelessWidget {
+  const CustomRadioButton({
     Key? key,
-    required String title,
-    required FormFieldSetter<bool>? onSaved,
-    FormFieldValidator<bool>? validator,
-    bool initialValue = false,
-    bool autovalidate = false,
-  }) : super(
-          key: key,
-          onSaved: onSaved,
-          validator: validator,
-          initialValue: initialValue,
-          builder: (FormFieldState<bool> state) {
-            return CheckboxListTile(
-              dense: state.hasError,
-              title: Text(title),
-              value: state.value,
-              onChanged: state.didChange,
-              controlAffinity: ListTileControlAffinity.leading,
-            );
-          },
-        );
+    required this.title,
+    required this.onChanged,
+    this.value = false,
+  }) : super(key: key);
+
+  final String title;
+  final bool value;
+  final ValueChanged<bool?>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      title: Text(title),
+      value: value,
+      onChanged: onChanged,
+      controlAffinity: ListTileControlAffinity.leading,
+    );
+  }
 }

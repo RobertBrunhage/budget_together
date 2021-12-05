@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:budget_together/core/molecules/list_items/custom_list_tile.dart';
 import 'package:budget_together/new_household/models/household/household.dart';
 import 'package:budget_together/new_household/widgets/custom_app_bar_delegate.dart';
 import 'package:flutter/material.dart';
@@ -102,12 +103,7 @@ class _Body extends ConsumerWidget {
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               final expense = household!.expenses[index];
-              return ListTile(
-                leading: const CircleAvatar(),
-                title: Text(expense.category.name),
-                subtitle: Text(expense.dateFormatted()),
-                trailing: Text('${expense.amount} :-'),
-              );
+              return CustomListTile(expense: expense);
             }, childCount: household?.expenses.length ?? 0),
           ),
         ],

@@ -40,7 +40,7 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
-              CustomFormInput(
+              CustomFormField(
                 // The validator receives the text that the user has entered.
                 label: 'Summa',
                 validator: (value) {
@@ -57,11 +57,11 @@ class _AddExpenseViewState extends ConsumerState<AddExpenseView> {
                   ),
                   FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                 ],
-                onChanged: (value) {
-                  setState(() {
-                    expense = value;
-                  });
-                },
+                // onChanged: (value) {
+                //   setState(() {
+                //     expense = value;
+                //   });
+                // },
                 errorMessage: 'no',
               ),
               SizedBox(
