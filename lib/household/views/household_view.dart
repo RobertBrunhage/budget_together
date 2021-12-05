@@ -2,16 +2,19 @@ import 'dart:developer';
 
 import 'package:budget_together/core/molecules/list_items/custom_list_tile.dart';
 import 'package:budget_together/household/models/household/household.dart';
+import 'package:budget_together/household/views/household_create_view.dart';
 import 'package:budget_together/household/widgets/custom_app_bar_delegate.dart';
+import 'package:budget_together/invite/household_invite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../authentication/login.dart';
+import '../../authentication/login_view.dart';
 import '../controllers/household_controller.dart';
 
 class HouseholdView extends ConsumerStatefulWidget {
   const HouseholdView({Key? key}) : super(key: key);
+  static String get route => 'household';
 
   @override
   ConsumerState<HouseholdView> createState() => _HouseholdViewState();
@@ -22,7 +25,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
   Widget build(BuildContext context) {
     ref.listen<HouseholdState>(householdControllerProvider, (previous, next) {
       if (next.household.value == null) {
-        context.go('/household/create');
+        context.goNamed(HouseholdCreateView.route);
       }
     });
     return Scaffold(
@@ -44,7 +47,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
             ListTile(
               title: const Text('Invite'),
               onTap: () {
-                context.go('/household/invite');
+                context.goNamed(HouseholdInviteView.route);
               },
             ),
             ListTile(
@@ -65,7 +68,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
     final error = response.error;
     if (error != null) {
       log(error.message);
-      context.go('/login');
+      context.goNamed(LoginView.route);
     }
   }
 }

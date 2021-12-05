@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
+  static String get route => 'splash';
 
   @override
   State<SplashView> createState() => _SplashViewState();

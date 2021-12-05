@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/login_view.dart';
 import 'package:budget_together/household/entities/household/household_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

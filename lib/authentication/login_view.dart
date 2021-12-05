@@ -10,6 +10,7 @@ final supabase = Supabase.instance.client;
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
+  static String get route => 'login';
 
   @override
   _LoginViewState createState() => _LoginViewState();
@@ -25,10 +26,7 @@ class _LoginViewState extends AuthState<LoginView> {
     });
     final response = await supabase.auth.signIn(
         email: _emailController.text,
-        options: AuthOptions(
-            redirectTo: kIsWeb
-                ? null
-                : 'io.supabase.flutterquickstart://login-callback/'));
+        options: AuthOptions(redirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/'));
     final error = response.error;
     if (error != null) {
       log(error.message);

@@ -1,4 +1,4 @@
-import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/login_view.dart';
 import 'package:budget_together/invite/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,5 +1,5 @@
 import 'package:budget_together/authentication/auth/auth_service.dart';
-import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/login_view.dart';
 import 'package:budget_together/authentication/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

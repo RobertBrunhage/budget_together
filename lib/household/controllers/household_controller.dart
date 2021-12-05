@@ -1,4 +1,4 @@
-import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/login_view.dart';
 import 'package:budget_together/household/controllers/category_controller.dart';
 import 'package:budget_together/household/models/category/category.dart';
 import 'package:budget_together/household/models/household/household.dart';

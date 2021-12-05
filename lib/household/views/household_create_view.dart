@@ -1,5 +1,6 @@
-import 'package:budget_together/authentication/login.dart';
+import 'package:budget_together/authentication/login_view.dart';
 import 'package:budget_together/household/controllers/household_controller.dart';
+import 'package:budget_together/household/views/household_view.dart';
 import 'package:budget_together/invite/controllers/invite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 
 class HouseholdCreateView extends ConsumerStatefulWidget {
   const HouseholdCreateView({Key? key}) : super(key: key);
+  static String get route => 'householdCreateView';
 
   @override
   ConsumerState<HouseholdCreateView> createState() => _HouseholdCreateViewState();
@@ -26,7 +28,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
   Widget build(BuildContext context) {
     ref.listen<HouseholdState>(householdControllerProvider, (previous, next) {
       if (next.household.value != null) {
-        context.go('/household');
+        context.goNamed(HouseholdView.route);
       }
     });
     return Scaffold(

@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:budget_together/authentication/auth/auth_controller.dart';
-import 'package:budget_together/authentication/login.dart';
-import 'package:budget_together/authentication/splash.dart';
+import 'package:budget_together/authentication/login_view.dart';
+import 'package:budget_together/authentication/splash_view.dart';
 import 'package:budget_together/household/views/household_create_view.dart';
 import 'package:budget_together/household/views/household_view.dart';
 import 'package:budget_together/invite/household_invite_view.dart';
@@ -28,55 +28,32 @@ class _MyAppState extends ConsumerState<MyApp> {
     routes: [
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'splash',
-          child: const SplashView(),
-        ),
+        name: SplashView.route,
+        builder: (context, state) => const SplashView(),
       ),
       GoRoute(
         path: '/household',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'household',
-          child: const HouseholdView(),
-        ),
+        name: HouseholdView.route,
+        builder: (context, state) => const HouseholdView(),
         routes: [
           GoRoute(
             path: 'create',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'householdCreateView',
-              child: const HouseholdCreateView(),
-            ),
+            name: HouseholdCreateView.route,
+            builder: (context, state) => const HouseholdCreateView(),
           ),
           GoRoute(
             path: 'invite',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'invite',
-              child: const HouseholdInviteView(),
-            ),
+            name: HouseholdInviteView.route,
+            builder: (context, state) => const HouseholdInviteView(),
           ),
         ],
       ),
       GoRoute(
         path: '/login',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'login',
-          child: const LoginView(),
-        ),
+        name: LoginView.route,
+        builder: (context, state) => const LoginView(),
       ),
     ],
-    errorPageBuilder: (BuildContext context, GoRouterState state) {
-      return MaterialPage<void>(
-        key: state.pageKey,
-        child: const Scaffold(
-          body: Center(child: Text('ERROR')),
-        ),
-      );
-    },
     redirect: (state) {
       final loggedIn = ref.watch(authControllerProvider).session == null ? false : true;
 
