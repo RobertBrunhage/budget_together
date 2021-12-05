@@ -1,4 +1,4 @@
-import 'package:budget_together/household/controllers/household_controller.dart';
+import 'package:budget_together/invite/controllers/invite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -41,9 +41,9 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    await ref.read(householdControllerProvider.notifier).invite(
-                          email,
-                        );
+                    await ref
+                        .read(inviteControllerProvider.notifier)
+                        .invite(email);
 
                     context.go('/household');
                   }

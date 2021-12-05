@@ -80,18 +80,6 @@ class HouseholdController extends StateNotifier<HouseholdState> {
     state = state.copyWith(selectedMonth: month);
   }
 
-  Future<void> invite(String email) async {
-    await _householdService.inviteUserToHousehold(
-      email,
-      state.household.value!.id,
-    );
-  }
-
-  Future<void> acceptAllInvites() async {
-    await _householdService.acceptAllInvites();
-    await fetchHousehold();
-  }
-
   Future<void> fetchHousehold() async {
     state = state.copyWith(household: const AsyncValue.loading());
     final household =

@@ -8,7 +8,7 @@ import 'package:budget_together/household/models/household/household.dart';
 import 'package:budget_together/household/repositories/category_repository.dart';
 import 'package:budget_together/household/repositories/expense_repository.dart';
 import 'package:budget_together/household/repositories/household_repository.dart';
-import 'package:budget_together/household/repositories/invite_repository.dart';
+import 'package:budget_together/invite/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final householdServiceProvider = Provider<HouseholdService>((ref) {

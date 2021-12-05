@@ -1,5 +1,6 @@
 import 'package:budget_together/authentication/login.dart';
 import 'package:budget_together/household/controllers/household_controller.dart';
+import 'package:budget_together/invite/controllers/invite_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,7 +20,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
   @override
   void initState() {
     super.initState();
-    ref.read(householdControllerProvider.notifier).acceptAllInvites();
+    ref.read(inviteControllerProvider.notifier).acceptAllInvites();
   }
 
   @override
