@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/user.dart';
-import '../user_repository.dart';
+import '../repositories/user_repository.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService(userRepository: ref.watch(userRepositoryProvider));

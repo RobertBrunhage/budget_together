@@ -4,7 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import '../login_view.dart';
 import '../models/user.dart';
-import 'auth_service.dart';
+import '../services/auth_service.dart';
 
 final authControllerProvider = ChangeNotifierProvider<AuthController>((ref) {
   return AuthController(ref.watch(authServiceProvider));

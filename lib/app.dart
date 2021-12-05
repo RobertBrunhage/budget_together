@@ -6,7 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'authentication/auth/auth_controller.dart';
+import 'authentication/controllers/auth_controller.dart';
 import 'authentication/login_view.dart';
 import 'authentication/splash_view.dart';
 import 'household/views/household_create_view.dart';

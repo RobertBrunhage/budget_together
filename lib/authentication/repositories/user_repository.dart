@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'entities/user_entity.dart';
-import 'login_view.dart';
+import '../entities/user_entity.dart';
+import '../login_view.dart';
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return UserRepository();
