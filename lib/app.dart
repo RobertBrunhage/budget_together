@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:budget_together/authentication/auth/auth_controller.dart';
 import 'package:budget_together/authentication/login.dart';
 import 'package:budget_together/authentication/splash.dart';
-import 'package:budget_together/household/views/household_add_expense_view.dart';
 import 'package:budget_together/household/views/household_create_view.dart';
 import 'package:budget_together/household/views/household_invite_view.dart';
 import 'package:budget_together/household/views/household_view.dart';
@@ -49,14 +48,6 @@ class _MyAppState extends ConsumerState<MyApp> {
               key: state.pageKey,
               name: 'householdCreateView',
               child: const HouseholdCreateView(),
-            ),
-          ),
-          GoRoute(
-            path: 'add-expense',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'addExpense',
-              child: const AddExpenseView(),
             ),
           ),
           GoRoute(
