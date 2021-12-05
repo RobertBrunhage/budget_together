@@ -11,6 +11,5 @@ class UserEntity with _$UserEntity {
     required String name,
   }) = _UserEntity;
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) =>
-      _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
 }
