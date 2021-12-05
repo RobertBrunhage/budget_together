@@ -21,8 +21,8 @@ dependencies:
   google_fonts: ^2.1.0
   intl: ^0.17.0
   json_annotation: ^4.4.0
+  multiple_result: ^1.0.4
   supabase_flutter: ^0.2.9
-  
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.3

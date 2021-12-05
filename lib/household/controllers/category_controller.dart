@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 
+import '../../core/failure.dart';
+import '../../core/snackbar_controller.dart';
 import '../models/category/category.dart';
 import '../services/household_service.dart';
 
@@ -40,12 +43,15 @@ class CategoryState {
 final categoryControllerProvider = StateNotifierProvider<CategoryController, CategoryState>((ref) {
   return CategoryController(
     ref.watch(householdServiceProvider),
+    ref.watch(snackbarControllerProvider.notifier),
   );
 });
 
 class CategoryController extends StateNotifier<CategoryState> {
-  CategoryController(this._householdService)
-      : super(
+  CategoryController(
+    this._householdService,
+    this._snackbarController,
+  ) : super(
           CategoryState(
             category: Category(id: -1, name: ''),
             categories: const AsyncValue.loading(),
@@ -53,24 +59,36 @@ class CategoryController extends StateNotifier<CategoryState> {
         );
 
   final HouseholdService _householdService;
+  final SnackbarController _snackbarController;
 
   Future<void> fetchCategories(int householdId) async {
-    final categories = await _householdService.fetchAllCategories(
+    final result = await _householdService.fetchAllCategories(
       householdId,
     );
-    state = state.copyWith(
-      categories: AsyncValue.data(categories),
-      category: categories!.first,
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (categories) {
+        state = state.copyWith(
+          categories: AsyncValue.data(categories),
+          category: categories!.first,
+        );
+      },
     );
   }
 
-  Future<Category> createCategory(int householdId, String name) async {
-    final category = await _householdService.createCategory(name, householdId);
-    state = state.copyWith(
-      category: category,
-      categories: AsyncValue.data([...state.categories.value!, category]),
+  Future<Result<Failure, Category>> createCategory(int householdId, String name) async {
+    final result = await _householdService.createCategory(name, householdId);
+
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (category) {
+        state = state.copyWith(
+          category: category,
+          categories: AsyncValue.data([...state.categories.value!, category]),
+        );
+      },
     );
-    return category;
+    return result;
   }
 
   void setCategory(Category category) {

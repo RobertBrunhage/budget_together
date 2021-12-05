@@ -20,7 +20,7 @@ class CategoryRepository {
     final response =
         await _supabaseClient.from('categories').select('id, name').eq('household_id', householdId).execute();
 
-    final categories = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>)
+    final categories = List<Map<String, dynamic>>.from(response.data as List<dynamic>)
         .map((final e) => CategoryEntity.fromJson(e))
         .toList();
 
@@ -33,7 +33,7 @@ class CategoryRepository {
       'name': category.name,
     }).execute();
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     if (response.error != null) {
       throw HttpException(response.error!.message);

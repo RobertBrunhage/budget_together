@@ -30,14 +30,26 @@ class _LoginViewState extends AuthState<LoginView> {
     final error = response.error;
     if (error != null) {
       log(error.message);
+      showSnackbar(error.message);
     } else {
       log('Check your email for login link!');
+      showSnackbar('Check your email for login link!');
       _emailController.clear();
     }
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  void showSnackbar(String message) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }
   }
 
   @override

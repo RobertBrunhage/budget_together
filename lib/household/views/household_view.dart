@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import '../../authentication/login_view.dart';
 import '../../authentication/supabase/supabase_provider.dart';
 import '../../core/molecules/list_items/custom_list_tile.dart';
+import '../../core/snackbar_controller.dart';
 import '../../invite/household_invite_view.dart';
 import '../controllers/household_controller.dart';
 import '../models/household/household.dart';
@@ -30,6 +31,8 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
         context.goNamed(HouseholdCreateView.route);
       }
     });
+    snackbarDisplayer(context, ref);
+
     return Scaffold(
       body: ref.watch(householdControllerProvider).household.when(
             data: (household) {

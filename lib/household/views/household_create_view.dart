@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/snackbar_controller.dart';
 import '../../invite/controllers/invite_controller.dart';
 import '../controllers/household_controller.dart';
 import 'household_view.dart';
@@ -33,6 +34,8 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
         context.goNamed(HouseholdView.route);
       }
     });
+
+    snackbarDisplayer(context, ref);
     return Scaffold(
       body: Center(
         child: Form(

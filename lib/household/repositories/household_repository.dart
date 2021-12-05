@@ -25,7 +25,7 @@ class HouseholdRepository {
       throw HttpException(response.error!.message);
     }
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     final household = HouseholdEntity.fromJson(data[0]);
 
@@ -54,7 +54,7 @@ class HouseholdRepository {
       return null;
     }
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     final household = data[0]['households']! as Map<String, dynamic>;
 

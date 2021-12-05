@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/snackbar_controller.dart';
 import '../models/category/category.dart';
 import '../models/household/household.dart';
 import '../services/household_service.dart';
@@ -54,6 +55,7 @@ final householdControllerProvider = StateNotifierProvider<HouseholdController, H
     ref.watch(householdServiceProvider),
     ref.watch(categoryControllerProvider.notifier),
     ref.watch(supabaseProvider),
+    ref.watch(snackbarControllerProvider.notifier),
   );
 });
 
@@ -62,6 +64,7 @@ class HouseholdController extends StateNotifier<HouseholdState> {
     this._householdService,
     this._categoryController,
     this._supabaseClient,
+    this._snackbarController,
   ) : super(
           HouseholdState(
             household: const AsyncValue.loading(),
@@ -76,10 +79,16 @@ class HouseholdController extends StateNotifier<HouseholdState> {
   final HouseholdService _householdService;
   final CategoryController _categoryController;
   final SupabaseClient _supabaseClient;
+  final SnackbarController _snackbarController;
 
   Future<void> createHousehold(String userId, String householdName) async {
-    await _householdService.createHousehold(userId, householdName);
-    await fetchHousehold();
+    final result = await _householdService.createHousehold(userId, householdName);
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (household) async {
+        await fetchHousehold();
+      },
+    );
   }
 
   void setYear(int year) {
@@ -92,19 +101,28 @@ class HouseholdController extends StateNotifier<HouseholdState> {
 
   Future<void> fetchHousehold() async {
     state = state.copyWith(household: const AsyncValue.loading());
-    final household = await _householdService.fetchHousehold(_supabaseClient.auth.currentUser!.id);
-
-    state = state.copyWith(household: AsyncValue.data(household));
+    final result = await _householdService.fetchHousehold(_supabaseClient.auth.currentUser!.id);
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (household) {
+        state = state.copyWith(household: AsyncValue.data(household));
+      },
+    );
   }
 
   Future<void> fetchExpenses() async {
-    final expenses = await _householdService.fetchExpenses(
+    final result = await _householdService.fetchExpenses(
       state.household.value!.id,
       state.selectedYear,
       state.selectedMonth,
     );
 
-    state = state.copyWith(household: AsyncValue.data(state.household.value!.copyWith(expenses: expenses ?? [])));
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (success) {
+        state = state.copyWith(household: AsyncValue.data(state.household.value!.copyWith(expenses: success ?? [])));
+      },
+    );
   }
 
   Future<void> createExpense(double amount, DateTime date) async {

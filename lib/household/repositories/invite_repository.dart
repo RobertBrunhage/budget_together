@@ -30,7 +30,7 @@ class InviteRepository {
       throw HttpException(response.error!.message);
     }
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     for (final invite in data) {
       await _supabaseClient.from('household_profiles').upsert(<String, Object>{

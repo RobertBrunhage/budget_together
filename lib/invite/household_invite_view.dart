@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../core/snackbar_controller.dart';
 import '../household/views/household_view.dart';
 import 'controllers/invite_controller.dart';
 
 class HouseholdInviteView extends ConsumerStatefulWidget {
-  const HouseholdInviteView({final Key? key}) : super(key: key);
+  const HouseholdInviteView({Key? key}) : super(key: key);
   static String get route => 'householdInviteView';
 
   @override
@@ -18,7 +19,8 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   @override
-  Widget build(final BuildContext context) {
+  Widget build(BuildContext context) {
+    snackbarDisplayer(context, ref);
     return Scaffold(
       body: Center(
         child: Form(

@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 import '../../authentication/entities/user_entity.dart';
+import '../../core/failure.dart';
 import '../entities/category/category_entity.dart';
 import '../entities/expense/expense_entity.dart';
 import '../models/category/category.dart';
@@ -29,67 +33,98 @@ class HouseholdService {
   final ExpenseRepository _expenseRepository;
   final CategoryRepository _categoryRepository;
 
-  Future<void> createHousehold(final String userId, final String householdName) async {
-    final householdId = await _householdRepository.createHousehold(userId, householdName);
-    await _categoryRepository.createCategory(CategoryEntity(name: 'annat', id: -1), householdId);
+  Future<Result<Failure, void>> createHousehold(final String userId, final String householdName) async {
+    try {
+      final householdId = await _householdRepository.createHousehold(userId, householdName);
+      await _categoryRepository.createCategory(CategoryEntity(name: 'annat', id: -1), householdId);
+      return const Success(null);
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<Household?> fetchHousehold(final String userId) async {
-    final householdEntity = await _householdRepository.fetchHousehold(userId);
-    if (householdEntity == null) return null;
-    return Household.fromEntity(householdEntity);
+  Future<Result<Failure, Household?>> fetchHousehold(final String userId) async {
+    try {
+      final householdEntity = await _householdRepository.fetchHousehold(userId);
+      if (householdEntity == null) return Error(Failure('no entities exists'));
+      return Success(Household.fromEntity(householdEntity));
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<List<Expense>?> fetchExpenses(
+  Future<Result<Failure, List<Expense>?>> fetchExpenses(
     final int householdId,
     final int year,
     final int month,
   ) async {
-    final startDate = DateTime(year, month);
-    final endDate = DateTime(year, month + 1, 0);
-    final expenseEntities = await _expenseRepository.fetchExpenses(
-      householdId,
-      startDate,
-      endDate,
-    );
-    if (expenseEntities == null) return null;
+    try {
+      final startDate = DateTime(year, month);
+      final endDate = DateTime(year, month + 1, 0);
+      final expenseEntities = await _expenseRepository.fetchExpenses(
+        householdId,
+        startDate,
+        endDate,
+      );
+      if (expenseEntities == null) return Error(Failure('No expenses'));
 
-    return expenseEntities.map((final e) => Expense.fromEntity(e)).toList();
+      return Success(expenseEntities.map((final e) => Expense.fromEntity(e)).toList());
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<void> createExpense(
+  Future<Result<Failure, void>> createExpense(
     final String userId,
     final double amount,
     final Category category,
     final int householdId,
     final DateTime date,
   ) async {
-    final expense = ExpenseEntity(
-      id: -1,
-      amount: (amount * 100).toInt(),
-      category: category.toEntity(),
-      user: UserEntity(id: userId, name: ''),
-      transactionDate: date,
-    );
-    await _expenseRepository.createExpense(expense, householdId);
+    try {
+      final expense = ExpenseEntity(
+        id: -1,
+        amount: (amount * 100).toInt(),
+        category: category.toEntity(),
+        user: UserEntity(id: userId, name: ''),
+        transactionDate: date,
+      );
+      await _expenseRepository.createExpense(expense, householdId);
+      return const Success(null);
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<Category> createCategory(final String name, final int householdId) async {
-    final categoryEntity = await _categoryRepository.createCategory(
-      CategoryEntity(id: -1, name: name),
-      householdId,
-    );
+  Future<Result<Failure, Category>> createCategory(final String name, final int householdId) async {
+    try {
+      final categoryEntity = await _categoryRepository.createCategory(
+        CategoryEntity(id: -1, name: name),
+        householdId,
+      );
 
-    return Category.fromEntity(categoryEntity);
+      return Success(Category.fromEntity(categoryEntity));
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<void> deleteExpense(final int expenseId) async {
-    await _expenseRepository.deleteExpense(expenseId);
+  Future<Result<Failure, void>> deleteExpense(final int expenseId) async {
+    try {
+      await _expenseRepository.deleteExpense(expenseId);
+      return const Success(null);
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 
-  Future<List<Category>?> fetchAllCategories(final int householdId) async {
-    final categoryEntities = await _categoryRepository.fetchCategories(householdId);
-    final categories = categoryEntities?.map((final e) => Category.fromEntity(e)).toList();
-    return categories;
+  Future<Result<Failure, List<Category>?>> fetchAllCategories(final int householdId) async {
+    try {
+      final categoryEntities = await _categoryRepository.fetchCategories(householdId);
+      final categories = categoryEntities?.map((final e) => Category.fromEntity(e)).toList();
+      return Success(categories);
+    } on HttpException catch (e) {
+      return Error(Failure(e.message));
+    }
   }
 }

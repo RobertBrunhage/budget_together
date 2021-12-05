@@ -29,7 +29,11 @@ class ExpenseRepository {
         .lte('transaction_date', endDate.millisecondsSinceEpoch)
         .execute();
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    if (response.error != null) {
+      throw HttpException(response.error!.message);
+    }
+
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     final expenses = data.map((final e) => ExpenseEntity.fromJson(e)).toList();
     return expenses;
@@ -49,7 +53,7 @@ class ExpenseRepository {
       throw HttpException(response.error!.message);
     }
 
-    final data = List<Map<String, dynamic>>.from(response.data as List<Map<String, dynamic>>);
+    final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     return expense.copyWith(id: data[0]['id']! as int);
   }

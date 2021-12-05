@@ -6,6 +6,7 @@ import 'package:budget_together/household/services/household_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../shared.dart';
@@ -35,7 +36,7 @@ void main() {
     when(() => mockedAuthService.createOrUpdateUser(User(id: '', name: 'test')))
         .thenAnswer((invocation) => Future.value(null));
 
-    when(() => mockedHouseholdService.fetchHousehold('')).thenAnswer((invocation) => Future.value(null));
+    when(() => mockedHouseholdService.fetchHousehold('')).thenAnswer((invocation) => Future.value(const Success(null)));
   });
 
   tearDown(() {
