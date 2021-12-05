@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/supabase_exception.dart';
 import '../entities/expense/expense_entity.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((final ref) {
@@ -30,7 +29,7 @@ class ExpenseRepository {
         .execute();
 
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
 
     final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
@@ -50,7 +49,7 @@ class ExpenseRepository {
     }).execute();
 
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
 
     final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
@@ -61,7 +60,7 @@ class ExpenseRepository {
   Future<void> deleteExpense(final int expenseId) async {
     final response = await _supabaseClient.from('expenses').delete().eq('id', expenseId).execute();
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +11,7 @@ import 'authentication/splash_view.dart';
 import 'household/views/household_create_view.dart';
 import 'household/views/household_view.dart';
 import 'invite/household_invite_view.dart';
+import 'localization/generated/l10n.dart';
 import 'theme/custom_theme.dart';
 
 /// The Widget that configures your application.
@@ -85,17 +85,18 @@ class _MyAppState extends ConsumerState<MyApp> {
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
       restorationScopeId: 'app',
+      scrollBehavior: const ScrollBehaviorModified(),
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('en', ''), // English, no country code
+        Locale('es', ''), // Spanish, no country code
       ],
-      scrollBehavior: const ScrollBehaviorModified(),
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (context) => S.of(context).appTitle,
       theme: lightTheme(context),
     );
   }

@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../authentication/entities/user_entity.dart';
 import '../../core/failure.dart';
+import '../../core/supabase_exception.dart';
 import '../entities/category/category_entity.dart';
 import '../entities/expense/expense_entity.dart';
 import '../models/category/category.dart';
@@ -38,7 +37,7 @@ class HouseholdService {
       final householdId = await _householdRepository.createHousehold(userId, householdName);
       await _categoryRepository.createCategory(CategoryEntity(name: 'annat', id: -1), householdId);
       return const Success(null);
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -48,7 +47,7 @@ class HouseholdService {
       final householdEntity = await _householdRepository.fetchHousehold(userId);
       if (householdEntity == null) return Error(Failure('no entities exists'));
       return Success(Household.fromEntity(householdEntity));
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -69,7 +68,7 @@ class HouseholdService {
       if (expenseEntities == null) return Error(Failure('No expenses'));
 
       return Success(expenseEntities.map((final e) => Expense.fromEntity(e)).toList());
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -91,7 +90,7 @@ class HouseholdService {
       );
       await _expenseRepository.createExpense(expense, householdId);
       return const Success(null);
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -104,7 +103,7 @@ class HouseholdService {
       );
 
       return Success(Category.fromEntity(categoryEntity));
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -113,7 +112,7 @@ class HouseholdService {
     try {
       await _expenseRepository.deleteExpense(expenseId);
       return const Success(null);
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }
@@ -123,7 +122,7 @@ class HouseholdService {
       final categoryEntities = await _categoryRepository.fetchCategories(householdId);
       final categories = categoryEntities?.map((final e) => Category.fromEntity(e)).toList();
       return Success(categories);
-    } on HttpException catch (e) {
+    } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
   }

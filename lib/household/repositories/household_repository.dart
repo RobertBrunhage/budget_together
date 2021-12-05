@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/supabase_exception.dart';
 import '../entities/household/household_entity.dart';
 
 final householdRepositoryProvider = Provider<HouseholdRepository>((final ref) {
@@ -22,7 +21,7 @@ class HouseholdRepository {
         await _supabaseClient.from('households').upsert({'creator': userId, 'name': householdName}).execute();
 
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
 
     final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
@@ -47,7 +46,7 @@ class HouseholdRepository {
         .execute();
 
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
 
     if ((response.data as List).isEmpty) {

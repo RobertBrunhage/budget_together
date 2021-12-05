@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/supabase_exception.dart';
 import '../entities/category/category_entity.dart';
 
 final categoryRepositoryProvider = Provider<CategoryRepository>((final ref) {
@@ -36,7 +35,7 @@ class CategoryRepository {
     final data = List<Map<String, dynamic>>.from(response.data as List<dynamic>);
 
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
 
     return CategoryEntity.fromJson(data[0]);
@@ -45,7 +44,7 @@ class CategoryRepository {
   Future<void> deleteExpense(final int expenseId) async {
     final response = await _supabaseClient.from('expenses').delete().eq('id', expenseId).execute();
     if (response.error != null) {
-      throw HttpException(response.error!.message);
+      throw SupabaseException(response.error!);
     }
   }
 }
