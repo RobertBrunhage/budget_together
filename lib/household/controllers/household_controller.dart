@@ -1,21 +1,24 @@
-import 'package:budget_together/authentication/login_view.dart';
-import 'package:budget_together/household/controllers/category_controller.dart';
-import 'package:budget_together/household/models/category/category.dart';
-import 'package:budget_together/household/models/household/household.dart';
-import 'package:budget_together/household/services/household_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../authentication/login_view.dart';
+import '../models/category/category.dart';
+import '../models/household/household.dart';
+import '../services/household_service.dart';
+import 'category_controller.dart';
+
+@immutable
 class HouseholdState {
-  final AsyncValue<Household?> household;
-  final AsyncValue<List<Category>?> categories;
-  final int selectedYear;
-  final int selectedMonth;
-  HouseholdState({
+  const HouseholdState({
     required this.household,
     required this.categories,
     required this.selectedYear,
     required this.selectedMonth,
   });
+  final AsyncValue<Household?> household;
+  final AsyncValue<List<Category>?> categories;
+  final int selectedYear;
+  final int selectedMonth;
 
   HouseholdState copyWith({
     AsyncValue<Household?>? household,
@@ -54,12 +57,14 @@ final householdControllerProvider = StateNotifierProvider<HouseholdController, H
 
 class HouseholdController extends StateNotifier<HouseholdState> {
   HouseholdController(this._householdService, this._categoryController)
-      : super(HouseholdState(
-          household: const AsyncValue.loading(),
-          categories: const AsyncValue.loading(),
-          selectedYear: DateTime.now().year,
-          selectedMonth: DateTime.now().month,
-        )) {
+      : super(
+          HouseholdState(
+            household: const AsyncValue.loading(),
+            categories: const AsyncValue.loading(),
+            selectedYear: DateTime.now().year,
+            selectedMonth: DateTime.now().month,
+          ),
+        ) {
     fetchHousehold();
   }
 

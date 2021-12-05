@@ -1,6 +1,7 @@
-import 'package:budget_together/household/entities/expense/expense_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../expense/expense_entity.dart';
 
 part 'household_entity.freezed.dart';
 part 'household_entity.g.dart';

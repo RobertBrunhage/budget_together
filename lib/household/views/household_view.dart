@@ -1,16 +1,17 @@
 import 'dart:developer';
 
-import 'package:budget_together/core/molecules/list_items/custom_list_tile.dart';
-import 'package:budget_together/household/models/household/household.dart';
-import 'package:budget_together/household/views/household_create_view.dart';
-import 'package:budget_together/household/widgets/custom_app_bar_delegate.dart';
-import 'package:budget_together/invite/household_invite_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../authentication/login_view.dart';
+import '../../core/molecules/list_items/custom_list_tile.dart';
+import '../../invite/household_invite_view.dart';
 import '../controllers/household_controller.dart';
+import '../models/household/household.dart';
+import '../widgets/custom_app_bar_delegate.dart';
+import 'household_create_view.dart';
 
 class HouseholdView extends ConsumerStatefulWidget {
   const HouseholdView({Key? key}) : super(key: key);
@@ -52,9 +53,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
             ),
             ListTile(
               title: const Text('Sign out'),
-              onTap: () {
-                _signOut();
-              },
+              onTap: _signOut,
             ),
           ],
         ),
@@ -68,7 +67,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
     final error = response.error;
     if (error != null) {
       log(error.message);
-      context.goNamed(LoginView.route);
+      if (mounted) context.goNamed(LoginView.route);
     }
   }
 }
@@ -103,14 +102,23 @@ class _Body extends ConsumerWidget {
             ),
           ),
           SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              final expense = household!.expenses[index];
-              return CustomListTile(expense: expense);
-            }, childCount: household?.expenses.length ?? 0),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
+                final expense = household!.expenses[index];
+                return CustomListTile(expense: expense);
+              },
+              childCount: household?.expenses.length ?? 0,
+            ),
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Household?>('household', household));
   }
 }
 
@@ -139,5 +147,11 @@ class _SpentThisMonth extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Household?>('household', household));
   }
 }

@@ -1,10 +1,12 @@
-import 'package:budget_together/authentication/login_view.dart';
-import 'package:budget_together/household/controllers/household_controller.dart';
-import 'package:budget_together/household/views/household_view.dart';
-import 'package:budget_together/invite/controllers/invite_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../authentication/login_view.dart';
+import '../../invite/controllers/invite_controller.dart';
+import '../controllers/household_controller.dart';
+import 'household_view.dart';
 
 class HouseholdCreateView extends ConsumerStatefulWidget {
   const HouseholdCreateView({Key? key}) : super(key: key);
@@ -68,5 +70,11 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('username', username));
   }
 }

@@ -1,6 +1,7 @@
-import 'package:budget_together/authentication/login_view.dart';
-import 'package:budget_together/invite/repositories/invite_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../authentication/login_view.dart';
+import '../repositories/invite_repository.dart';
 
 final inviteServiceProvider = Provider<InviteService>((ref) {
   return InviteService(
@@ -9,11 +10,11 @@ final inviteServiceProvider = Provider<InviteService>((ref) {
 });
 
 class InviteService {
-  final InviteRepository _inviteRepository;
-
-  InviteService(
+  const InviteService(
     this._inviteRepository,
   );
+
+  final InviteRepository _inviteRepository;
 
   Future<void> inviteUserToHousehold(String email, int householdId) async {
     return _inviteRepository.invite(

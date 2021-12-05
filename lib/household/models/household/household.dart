@@ -1,19 +1,20 @@
-import 'package:budget_together/household/entities/household/household_entity.dart';
-import 'package:budget_together/household/models/expense/expense.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../entities/household/household_entity.dart';
+import '../expense/expense.dart';
 
 part 'household.freezed.dart';
 
 @freezed
 class Household with _$Household {
-  const Household._();
   factory Household({
     required int id,
     required String creator,
     required String name,
     required List<Expense> expenses,
   }) = _Household;
+  const Household._();
 
   factory Household.fromEntity(HouseholdEntity householdEntity) {
     return Household(

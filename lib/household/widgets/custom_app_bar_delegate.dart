@@ -1,10 +1,12 @@
-import 'package:budget_together/core/organisms/add_expense_bottom_sheet.dart';
-import 'package:budget_together/core/organisms/selectors/month_selector.dart';
-import 'package:budget_together/core/organisms/selectors/year_selector.dart';
-import 'package:budget_together/household/controllers/household_controller.dart';
-import 'package:budget_together/household/models/household/household.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../core/organisms/add_expense_bottom_sheet.dart';
+import '../../core/organisms/selectors/month_selector.dart';
+import '../../core/organisms/selectors/year_selector.dart';
+import '../controllers/household_controller.dart';
+import '../models/household/household.dart';
 
 class CustomAppBarDelegate extends SliverPersistentHeaderDelegate {
   CustomAppBarDelegate({
@@ -18,24 +20,24 @@ class CustomAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-    BuildContext context,
-    double shrinkOffset,
-    bool overlapsContent,
+    final BuildContext context,
+    final double shrinkOffset,
+    final bool overlapsContent,
   ) {
     final household = ref.watch(householdControllerProvider).household.value;
     return Container(
-      margin: const EdgeInsets.all(0),
+      margin: EdgeInsets.zero,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
-            spreadRadius: 0,
             blurRadius: 12,
             offset: const Offset(0, 2), // changes position of shadow
           ),
@@ -59,19 +61,19 @@ class CustomAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => kToolbarHeight + statusbarHeight;
 
   @override
-  bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+  bool shouldRebuild(final SliverPersistentHeaderDelegate oldDelegate) => true;
 }
 
 class _CustomAppBar extends StatelessWidget {
   const _CustomAppBar({
-    Key? key,
+    final Key? key,
     required this.household,
   }) : super(key: key);
 
   final Household? household;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Row(
       children: [
         IconButton(
@@ -88,8 +90,8 @@ class _CustomAppBar extends StatelessWidget {
     );
   }
 
-  void openAddExpenseSheet(BuildContext context) {
-    showModalBottomSheet(
+  void openAddExpenseSheet(final BuildContext context) {
+    showModalBottomSheet<AddExpenseBottomSheet>(
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -98,9 +100,15 @@ class _CustomAppBar extends StatelessWidget {
         ),
       ),
       isScrollControlled: true,
-      builder: (context) {
+      builder: (final context) {
         return const AddExpenseBottomSheet();
       },
     );
+  }
+
+  @override
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Household?>('household', household));
   }
 }

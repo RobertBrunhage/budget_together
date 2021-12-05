@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "31.0.0"
+  all_lint_rules_community:
+    dependency: "direct dev"
+    description:
+      name: all_lint_rules_community
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   analyzer:
     dependency: transitive
     description:
@@ -195,13 +202,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.4"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -357,13 +357,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.1"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   logging:
     dependency: transitive
     description:

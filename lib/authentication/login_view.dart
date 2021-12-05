@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:budget_together/authentication/supabase/auth_state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'supabase/auth_state.dart';
 
 final supabase = Supabase.instance.client;
 
@@ -13,7 +14,7 @@ class LoginView extends StatefulWidget {
   static String get route => 'login';
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
 class _LoginViewState extends AuthState<LoginView> {
@@ -25,8 +26,9 @@ class _LoginViewState extends AuthState<LoginView> {
       _isLoading = true;
     });
     final response = await supabase.auth.signIn(
-        email: _emailController.text,
-        options: AuthOptions(redirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/'));
+      email: _emailController.text,
+      options: AuthOptions(redirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/'),
+    );
     final error = response.error;
     if (error != null) {
       log(error.message);

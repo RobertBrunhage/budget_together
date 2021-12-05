@@ -1,13 +1,15 @@
-import 'package:budget_together/core/atoms/form_elements/custom_dropdown.dart';
-import 'package:budget_together/core/atoms/form_elements/custom_form_input.dart';
-import 'package:budget_together/core/atoms/form_elements/custom_radio_button.dart';
-import 'package:budget_together/household/controllers/category_controller.dart';
-import 'package:budget_together/household/controllers/household_controller.dart';
-import 'package:budget_together/household/models/category/category.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../household/controllers/category_controller.dart';
+import '../../household/controllers/household_controller.dart';
+import '../../household/models/category/category.dart';
+import '../atoms/form_elements/custom_dropdown.dart';
+import '../atoms/form_elements/custom_form_input.dart';
+import '../atoms/form_elements/custom_radio_button.dart';
 
 class AddExpenseBottomSheet extends ConsumerStatefulWidget {
   const AddExpenseBottomSheet({
@@ -15,8 +17,7 @@ class AddExpenseBottomSheet extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<AddExpenseBottomSheet> createState() =>
-      _AddExpenseBottomSheetState();
+  ConsumerState<AddExpenseBottomSheet> createState() => _AddExpenseBottomSheetState();
 }
 
 class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
@@ -30,10 +31,11 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
   @override
   void initState() {
     super.initState();
-    date = DateTime(ref.read(householdControllerProvider).selectedYear,
-        ref.read(householdControllerProvider).selectedMonth);
-    final householdId =
-        ref.read(householdControllerProvider).household.value!.id;
+    date = DateTime(
+      ref.read(householdControllerProvider).selectedYear,
+      ref.read(householdControllerProvider).selectedMonth,
+    );
+    final householdId = ref.read(householdControllerProvider).household.value!.id;
     ref.read(categoryControllerProvider.notifier).fetchCategories(householdId);
   }
 
@@ -61,7 +63,6 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                         ),
                         const SizedBox(height: 12),
                         CustomFormField(
-                          errorMessage: 'Skriv in en summa',
                           label: 'Summa *',
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -74,14 +75,12 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                               amount = value;
                             });
                           },
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           inputFormatters: [
                             FilteringTextInputFormatter.deny(
-                              RegExp('[\\-|\\ ]'),
+                              RegExp(r'[\\-|\\ ]'),
                             ),
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'(^\d*\.?\d{0,2})'))
+                            FilteringTextInputFormatter.allow(RegExp(r'(^\d*\.?\d{0,2})'))
                           ],
                         ),
                         CustomRadioButton(
@@ -96,26 +95,24 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                         if (!newCategory) ...[
                           const SizedBox(height: 12),
                           CustomDropdownButton<Category>(
-                              label: 'Kategori',
-                              value: ref
-                                  .watch(categoryControllerProvider)
-                                  .category,
-                              onChanged: (newValue) {
-                                ref
-                                    .read(categoryControllerProvider.notifier)
-                                    .setCategory(newValue!);
-                              },
-                              items: categories
-                                  ?.map((e) => DropdownMenuItem(
-                                        value: e,
-                                        child: Text(e.name),
-                                      ))
-                                  .toList()),
+                            label: 'Kategori',
+                            value: ref.watch(categoryControllerProvider).category,
+                            onChanged: (newValue) {
+                              ref.read(categoryControllerProvider.notifier).setCategory(newValue!);
+                            },
+                            items: categories
+                                ?.map(
+                                  (e) => DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e.name),
+                                  ),
+                                )
+                                .toList(),
+                          ),
                           const SizedBox(height: 12),
                         ],
                         if (newCategory) ...[
                           CustomFormField(
-                            errorMessage: 'Skriv in en summa',
                             label: 'Kategori *',
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -131,7 +128,6 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                           ),
                           const SizedBox(height: 12),
                           CustomFormField(
-                            errorMessage: 'Skriv in en summa',
                             label: 'Kategori Budget',
                             onSaved: (value) {
                               setState(() {
@@ -146,7 +142,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: date,
                             maximumDate: DateTime.now(),
-                            onDateTimeChanged: (DateTime newDateTime) {
+                            onDateTimeChanged: (newDateTime) {
                               // Do something
                               setState(() {
                                 date = newDateTime;
@@ -193,7 +189,18 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
               date,
             );
       }
-      Navigator.of(context).pop();
+      if (mounted) Navigator.of(context).pop();
     }
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('categoryBudgetAmount', categoryBudgetAmount));
+    properties.add(StringProperty('categoryName', categoryName));
+    properties.add(StringProperty('amount', amount));
+    properties.add(DiagnosticsProperty<bool>('newCategory', newCategory));
+    properties.add(DiagnosticsProperty<GlobalKey<FormState>>('formGlobalKey', formGlobalKey));
+    properties.add(DiagnosticsProperty<DateTime>('date', date));
   }
 }

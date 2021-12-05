@@ -1,36 +1,92 @@
-# This file configures the analyzer, which statically analyzes Dart code to
-# check for errors, warnings, and lints.
-#
-# The issues identified by the analyzer are surfaced in the UI of Dart-enabled
-# IDEs (https://dart.dev/tools#ides-and-editors). The analyzer can also be
-# invoked from the command line by running `flutter analyze`.
+include: package:all_lint_rules_community/all.yaml
 
-# The following line activates a set of recommended lints for Flutter apps,
-# packages, and plugins designed to encourage good coding practices.
-include: package:flutter_lints/flutter.yaml
-
+# REST OF YOUR ANALYSIS_OPTIONS.YAML FILE
 analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "test/.test_coverage.dart"
+    - "bin/cache/**"
+    - "lib/generated_plugin_registrant.dart"
+
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: false
+
   errors:
+    # Without ignore here, we cause import of all_lint_rules to warn, because some rules conflict.
+    # We explicitly enabled even conflicting rules and are fixing the conflicts in this file.
+    included_file_warning: ignore
+    # Treat missing required parameters as an error.
+    missing_required_param: error
+    # Treat missing returns as an error, not as a hint or a warning.
+    missing_return: error
+    # Don't assign new values to parameters of methods or functions.
+    # Treat assigning new values to a parameter as a warning. We would almost like to set this
+    parameter_assignments: warning
+    # Allow having TODOs in the code.
+    todo: ignore
     invalid_annotation_target: ignore
 
+# LINTER Preferences
+#
+# Explicitly disable only the rules we do not want.
 linter:
-  # The lint rules applied to this project can be customized in the
-  # section below to disable rules from the `package:flutter_lints/flutter.yaml`
-  # included above or to enable additional rules. A list of all available lints
-  # and their documentation is published at
-  # https://dart-lang.github.io/linter/lints/index.html.
-  #
-  # Instead of disabling a lint rule for the entire project in the
-  # section below, it can also be suppressed for a single line of code
-  # or a specific dart file by using the `// ignore: name_of_lint` and
-  # `// ignore_for_file: name_of_lint` syntax on the line or in the file
-  # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    # ALWAYS separate the control structure expression from its statement.
+    # This sometimes makes things more unclear when one line is enough.
+    # Also single line `if`s are fine as recommended in Effective Dart "DO format your code using dartfmt".
+    always_put_control_body_on_new_line: false
 
-# Additional information about this file can be found at
-# https://dart.dev/guides/language/analysis-options
+    # ALWAYS specify @required on named parameter before other named parameters.
+    # Conflicts with the convention used by flutter, which puts `Key key`
+    # and `@required Widget child` last.
+    always_put_required_named_parameters_first: false
+
+    # Using single quotes everywhere
+    prefer_double_quotes: false
+
+    # Too overkill for personal project
+    public_member_api_docs: false
+
+    # Conflicts with relative imports
+    always_use_package_imports: false
+
+    # Conflicts with disabling `implicit-dynamic`
+    avoid_annotating_with_dynamic: false
+
+    # Personal preference. I don't find it more readable
+    cascade_invocations: false
+
+    # Conflicts with `omit_local_variable_types` and other rules.
+    # As per Dart guidelines, we want to avoid unnecessary types to make the code
+    # more readable.
+    # See https://dart.dev/guides/language/effective-dart/design#avoid-type-annotating-initialized-local-variables
+    always_specify_types: false
+
+    # Not quite suitable for Flutter, which may have a `build` method with a single
+    # return, but that return is still complex enough that a "body" is worth it.
+    prefer_expression_function_bodies: false
+
+    # `as` is not that bad (especially with the upcoming non-nullable types).
+    # Explicit exceptions is better than implicit exceptions.
+    avoid_as: false
+
+    # Boring as it sometimes force a line of 81 characters to be split in two.
+    # As long as we try to respect that 80 characters limit, going slightly
+    # above is fine.
+    lines_longer_than_80_chars: false
+
+    # Incompatible with `prefer_final_locals`
+    # Having immutable local variables makes larger functions more predictible
+    # so we will use `prefer_final_locals` instead.
+    unnecessary_final: false
+
+    # Far too verbose, and not that big of a deal when using parameter_assignments
+    prefer_final_parameters: false
+
+    # Warning with localizations
+    depend_on_referenced_packages: false
+  
+    # Followed by more turned OFF lint rules as preferred/needed/desired and always 
+    # turning off at least conflicting rules.

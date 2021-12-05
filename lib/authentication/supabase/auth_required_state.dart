@@ -1,7 +1,8 @@
-import 'package:budget_together/authentication/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../login_view.dart';
 
 class AuthRequiredState<T extends StatefulWidget> extends SupabaseAuthRequiredState<T> {
   @override

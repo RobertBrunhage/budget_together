@@ -1,7 +1,9 @@
-import 'package:budget_together/core/atoms/buttons/month_toggle.dart';
-import 'package:budget_together/household/controllers/household_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../household/controllers/household_controller.dart';
+import '../../atoms/buttons/month_toggle.dart';
 
 class MonthSelectorList extends ConsumerStatefulWidget {
   const MonthSelectorList({
@@ -21,9 +23,7 @@ class _MonthSelectorListState extends ConsumerState<MonthSelectorList> {
     super.initState();
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       if (dateNow.month > 7) {
-        _controller.animateTo(dateNow.month * 20,
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut);
+        _controller.animateTo(dateNow.month * 20, duration: const Duration(milliseconds: 200), curve: Curves.easeInOut);
       }
     });
   }
@@ -42,16 +42,19 @@ class _MonthSelectorListState extends ConsumerState<MonthSelectorList> {
           return MonthToggle(
             month: date.month,
             onTap: () {
-              ref
-                  .read(householdControllerProvider.notifier)
-                  .setMonth(date.month);
+              ref.read(householdControllerProvider.notifier).setMonth(date.month);
               ref.read(householdControllerProvider.notifier).fetchExpenses();
             },
-            isActive: ref.watch(householdControllerProvider).selectedMonth ==
-                date.month,
+            isActive: ref.watch(householdControllerProvider).selectedMonth == date.month,
           );
         },
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<DateTime>('dateNow', dateNow));
   }
 }

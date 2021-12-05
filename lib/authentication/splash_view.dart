@@ -1,5 +1,6 @@
-import 'package:budget_together/authentication/supabase/auth_state.dart';
 import 'package:flutter/material.dart';
+
+import 'supabase/auth_state.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);

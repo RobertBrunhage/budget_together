@@ -1,16 +1,18 @@
-import 'package:budget_together/authentication/models/user.dart';
-import 'package:budget_together/authentication/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/user.dart';
+import '../user_repository.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
   return AuthService(userRepository: ref.watch(userRepositoryProvider));
 });
 
 class AuthService {
-  final UserRepository userRepository;
-  AuthService({
+  const AuthService({
     required this.userRepository,
   });
+
+  final UserRepository userRepository;
 
   Future<void> createOrUpdateUser(User user) async {
     await userRepository.createOrUpdateUser(user.toEntity());

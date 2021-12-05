@@ -1,17 +1,18 @@
 import 'dart:developer';
 
-import 'package:budget_together/authentication/auth/auth_controller.dart';
-import 'package:budget_together/authentication/login_view.dart';
-import 'package:budget_together/authentication/splash_view.dart';
-import 'package:budget_together/household/views/household_create_view.dart';
-import 'package:budget_together/household/views/household_view.dart';
-import 'package:budget_together/invite/household_invite_view.dart';
-import 'package:budget_together/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import 'authentication/auth/auth_controller.dart';
+import 'authentication/login_view.dart';
+import 'authentication/splash_view.dart';
+import 'household/views/household_create_view.dart';
+import 'household/views/household_view.dart';
+import 'invite/household_invite_view.dart';
+import 'theme/custom_theme.dart';
 
 /// The Widget that configures your application.
 class MyApp extends ConsumerStatefulWidget {
@@ -55,11 +56,16 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
     ],
     redirect: (state) {
-      final loggedIn = ref.watch(authControllerProvider).session == null ? false : true;
+      final bool loggedIn;
+      if (ref.watch(authControllerProvider).session == null) {
+        loggedIn = false;
+      } else {
+        loggedIn = true;
+      }
 
       final goingToLogin = state.location == '/login';
-      log('loggedIn: ' + loggedIn.toString());
-      log('goingToLogin: ' + goingToLogin.toString());
+      log('loggedIn: $loggedIn');
+      log('goingToLogin: $goingToLogin');
 
       // the user is not logged in and not headed to /login, they need to login
       if (!loggedIn && !goingToLogin) return '/login';
@@ -89,8 +95,8 @@ class _MyAppState extends ConsumerState<MyApp> {
         Locale('en', ''), // English, no country code
       ],
       scrollBehavior: const ScrollBehaviorModified(),
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
-      theme: CustomTheme.lightTheme(context),
+      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      theme: lightTheme(context),
     );
   }
 }

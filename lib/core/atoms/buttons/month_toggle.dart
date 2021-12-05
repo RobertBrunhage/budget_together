@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -37,5 +38,13 @@ class MonthToggle extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(IntProperty('month', month));
+    properties.add(ObjectFlagProperty<VoidCallback>.has('onTap', onTap));
+    properties.add(DiagnosticsProperty<bool>('isActive', isActive));
   }
 }

@@ -1,11 +1,13 @@
-import 'package:budget_together/household/views/household_view.dart';
-import 'package:budget_together/invite/controllers/invite_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../household/views/household_view.dart';
+import 'controllers/invite_controller.dart';
+
 class HouseholdInviteView extends ConsumerStatefulWidget {
-  const HouseholdInviteView({Key? key}) : super(key: key);
+  const HouseholdInviteView({final Key? key}) : super(key: key);
   static String get route => 'householdInviteView';
 
   @override
@@ -16,7 +18,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return Scaffold(
       body: Center(
         child: Form(
@@ -26,13 +28,13 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
             children: [
               TextFormField(
                 // The validator receives the text that the user has entered.
-                validator: (value) {
+                validator: (final value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
                   }
                   return null;
                 },
-                onChanged: (value) {
+                onChanged: (final value) {
                   setState(() {
                     email = value;
                   });
@@ -44,6 +46,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                   if (_formKey.currentState!.validate()) {
                     await ref.read(inviteControllerProvider.notifier).invite(email);
 
+                    if (!mounted) return;
                     context.goNamed(HouseholdView.route);
                   }
                 },
@@ -54,5 +57,11 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('email', email));
   }
 }
