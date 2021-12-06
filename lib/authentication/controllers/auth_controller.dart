@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
+import '../../core/error_handling/failure.dart';
+import '../../core/error_handling/snackbar_controller.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
 import '../supabase/supabase_provider.dart';
@@ -10,6 +15,7 @@ final authControllerProvider = ChangeNotifierProvider<AuthController>((ref) {
   return AuthController(
     ref.watch(authServiceProvider),
     ref.watch(supabaseProvider),
+    ref.watch(snackbarControllerProvider.notifier),
   );
 });
 
@@ -17,6 +23,7 @@ class AuthController extends ChangeNotifier {
   AuthController(
     this._authService,
     this._supabaseClient,
+    this._snackbarController,
   ) : super() {
     _supabaseClient.auth.refreshSession();
     _sub = _supabaseClient.auth.onAuthStateChange((event, session) {
@@ -26,6 +33,7 @@ class AuthController extends ChangeNotifier {
 
   final AuthService _authService;
   final SupabaseClient _supabaseClient;
+  final SnackbarController _snackbarController;
 
   late final GotrueSubscription _sub;
   Session? session;
@@ -36,15 +44,22 @@ class AuthController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> createOrUpdateUser() async {
-    if (session != null) {
-      await _authService.createOrUpdateUser(
-        User(
-          id: session!.user!.id,
-          name: session!.user!.email!.split('@')[0],
-        ),
-      );
-    }
+  Future<Result<Failure, void>> createOrUpdateUser() async {
+    if (session == null) return Error(Failure('No session'));
+    final result = await _authService.createOrUpdateUser(
+      User(
+        id: session!.user!.id,
+        name: session!.user!.email!.split('@')[0],
+      ),
+    );
+
+    result.when(
+      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (_) {
+        log('Succeessfully accepted all invites');
+      },
+    );
+    return result;
   }
 
   @override

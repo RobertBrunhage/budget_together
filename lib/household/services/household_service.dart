@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../authentication/entities/user_entity.dart';
-import '../../core/failure.dart';
-import '../../core/supabase_exception.dart';
+import '../../core/error_handling/failure.dart';
+import '../../core/error_handling/supabase_exception.dart';
 import '../entities/category/category_entity.dart';
 import '../entities/expense/expense_entity.dart';
 import '../models/category/category.dart';

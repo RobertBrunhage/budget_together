@@ -34,7 +34,7 @@ void main() {
     // common
     when(() => mockedSupabaseClient.auth).thenReturn(stubGoTrueClient());
     when(() => mockedAuthService.createOrUpdateUser(User(id: '', name: 'test')))
-        .thenAnswer((invocation) => Future.value(null));
+        .thenAnswer((invocation) => Future.value(const Success(null)));
 
     when(() => mockedHouseholdService.fetchHousehold('')).thenAnswer((invocation) => Future.value(const Success(null)));
   });

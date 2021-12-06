@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../authentication/supabase/supabase_provider.dart';
-import '../../core/supabase_exception.dart';
+import '../../core/error_handling/supabase_exception.dart';
 import '../entities/expense/expense_entity.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((final ref) {

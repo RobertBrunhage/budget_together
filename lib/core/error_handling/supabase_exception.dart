@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../localization/generated/l10n.dart';
+import '../../localization/generated/l10n.dart';
 
 class SupabaseException extends HttpException {
   SupabaseException(PostgrestError error) : super(_supabaseError(error));

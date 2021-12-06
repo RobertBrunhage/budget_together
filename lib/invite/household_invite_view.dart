@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../core/snackbar_controller.dart';
+import '../core/error_handling/snackbar_controller.dart';
 import '../household/views/household_view.dart';
 import 'controllers/invite_controller.dart';
 
@@ -46,10 +46,12 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                 onPressed: () async {
                   // Validate returns true if the form is valid, or false otherwise.
                   if (_formKey.currentState!.validate()) {
-                    await ref.read(inviteControllerProvider.notifier).invite(email);
-
-                    if (!mounted) return;
-                    context.goNamed(HouseholdView.route);
+                    final result = await ref.read(inviteControllerProvider.notifier).invite(email);
+                    if (result.isSuccess()) {
+                      if (mounted) {
+                        context.goNamed(HouseholdView.route);
+                      }
+                    }
                   }
                 },
                 child: const Text('Submit'),

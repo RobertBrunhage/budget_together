@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../authentication/login_view.dart';
 import '../../authentication/supabase/supabase_provider.dart';
+import '../../core/error_handling/snackbar_controller.dart';
 import '../../core/molecules/list_items/custom_list_tile.dart';
-import '../../core/snackbar_controller.dart';
 import '../../invite/household_invite_view.dart';
 import '../controllers/household_controller.dart';
 import '../models/household/household.dart';

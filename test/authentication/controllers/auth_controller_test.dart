@@ -5,6 +5,7 @@ import 'package:budget_together/authentication/supabase/supabase_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as supa;
 
 import '../../shared.dart';
@@ -29,7 +30,7 @@ void main() {
     // common
     when(() => mockedSupabaseClient.auth).thenReturn(stubGoTrueClient());
     when(() => mockedAuthService.createOrUpdateUser(User(id: '', name: 'test')))
-        .thenAnswer((invocation) => Future.value(null));
+        .thenAnswer((invocation) => Future.value(const Success(null)));
   });
 
   tearDown(() {

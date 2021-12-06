@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../authentication/supabase/supabase_provider.dart';
-import '../../core/snackbar_controller.dart';
+import '../../core/error_handling/snackbar_controller.dart';
 import '../../invite/controllers/invite_controller.dart';
 import '../controllers/household_controller.dart';
 import 'household_view.dart';

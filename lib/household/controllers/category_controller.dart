@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:multiple_result/multiple_result.dart';
 
-import '../../core/failure.dart';
-import '../../core/snackbar_controller.dart';
+import '../../core/error_handling/failure.dart';
+import '../../core/error_handling/snackbar_controller.dart';
 import '../models/category/category.dart';
 import '../services/household_service.dart';
 
@@ -61,7 +61,7 @@ class CategoryController extends StateNotifier<CategoryState> {
   final HouseholdService _householdService;
   final SnackbarController _snackbarController;
 
-  Future<void> fetchCategories(int householdId) async {
+  Future<Result<Failure, void>> fetchCategories(int householdId) async {
     final result = await _householdService.fetchAllCategories(
       householdId,
     );
@@ -74,6 +74,7 @@ class CategoryController extends StateNotifier<CategoryState> {
         );
       },
     );
+    return result;
   }
 
   Future<Result<Failure, Category>> createCategory(int householdId, String name) async {
