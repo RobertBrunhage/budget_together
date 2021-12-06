@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 import '../../authentication/login_view.dart';
 import '../../authentication/supabase/supabase_provider.dart';
@@ -24,6 +23,7 @@ class HouseholdView extends ConsumerStatefulWidget {
 }
 
 class _HouseholdViewState extends ConsumerState<HouseholdView> {
+  final _log = Logger('Household View');
   @override
   Widget build(BuildContext context) {
     ref.listen<HouseholdState>(householdControllerProvider, (previous, next) {
@@ -70,7 +70,7 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
 
     final error = response.error;
     if (error != null) {
-      log(error.message);
+      _log.warning(error.message);
       if (mounted) context.goNamed(LoginView.route);
     }
   }

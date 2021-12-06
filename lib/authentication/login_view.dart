@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -18,6 +17,7 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends AuthState<LoginView> {
   bool _isLoading = false;
   late final TextEditingController _emailController;
+  final _log = Logger('Login View');
 
   Future<void> _signIn() async {
     setState(() {
@@ -29,10 +29,10 @@ class _LoginViewState extends AuthState<LoginView> {
     );
     final error = response.error;
     if (error != null) {
-      log(error.message);
+      _log.warning(error.message);
       showSnackbar(error.message);
     } else {
-      log('Check your email for login link!');
+      _log.info('Check your email for login link!');
       showSnackbar('Check your email for login link!');
       _emailController.clear();
     }

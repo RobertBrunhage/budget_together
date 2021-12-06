@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:multiple_result/multiple_result.dart';
 
 import '../../core/error_handling/failure.dart';
@@ -29,13 +28,15 @@ class InviteController extends StateNotifier<InviteState> {
   final HouseholdController _householdController;
   final SnackbarController _snackbarController;
 
+  final _log = Logger('Invite Controller');
+
   Future<Result<Failure, void>> invite(final String email) async {
     final householdId = _householdController.state.household.value!.id;
     final result = await _inviteService.inviteUserToHousehold(email, householdId);
     result.when(
       (error) => _snackbarController.setSnackbarMessage(error.message),
       (_) {
-        log('Succeessfully invited $email');
+        _log.info('Succeessfully invited $email');
       },
     );
     return result;
@@ -48,7 +49,7 @@ class InviteController extends StateNotifier<InviteState> {
       (error) => _snackbarController.setSnackbarMessage(error.message),
       (_) {
         _householdController.fetchHousehold();
-        log('Succeessfully accepted all invites');
+        _log.info('Succeessfully accepted all invites');
       },
     );
     return result;

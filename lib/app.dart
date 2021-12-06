@@ -1,9 +1,9 @@
-import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
 
 import 'authentication/controllers/auth_controller.dart';
 import 'authentication/login_view.dart';
@@ -25,6 +25,7 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+  final log = Logger('MyApp');
   late final _router = GoRouter(
     routes: [
       GoRoute(
@@ -64,8 +65,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       }
 
       final goingToLogin = state.location == '/login';
-      log('loggedIn: $loggedIn');
-      log('goingToLogin: $goingToLogin');
+      log.info('loggedIn: $loggedIn, goingToLogin: $goingToLogin');
 
       // the user is not logged in and not headed to /login, they need to login
       if (!loggedIn && !goingToLogin) return '/login';
@@ -94,11 +94,16 @@ class _MyAppState extends ConsumerState<MyApp> {
       ],
       supportedLocales: const [
         Locale('en', ''), // English, no country code
-        Locale('es', ''), // Spanish, no country code
       ],
       onGenerateTitle: (context) => S.of(context).appTitle,
       theme: lightTheme(context),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Logger>('log', log));
   }
 }
 

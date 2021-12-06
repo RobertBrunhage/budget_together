@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:supabase/supabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
+  final _log = Logger('AuthState Supabase');
   @override
   void onUnauthenticated() {}
 
@@ -16,6 +16,6 @@ class AuthState<T extends StatefulWidget> extends SupabaseAuthState<T> {
 
   @override
   void onErrorAuthenticating(String message) {
-    log(message);
+    _log.info(message);
   }
 }

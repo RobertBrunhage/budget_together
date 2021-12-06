@@ -145,13 +145,6 @@ void main() {
         date: DateTime.now(),
       )
     ];
-    final newExpense = Expense(
-      id: 2,
-      amount: 100,
-      category: Category(id: 1, name: ''),
-      user: User(id: '', name: ''),
-      date: DateTime.now(),
-    );
     final household = Household(id: 1, creator: '', name: '', expenses: []);
     when(() => mockedHouseholdService.fetchHousehold(any())).thenAnswer(
       (invocation) => Future.value(

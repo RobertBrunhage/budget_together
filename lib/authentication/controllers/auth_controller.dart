@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:multiple_result/multiple_result.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
@@ -34,6 +33,7 @@ class AuthController extends ChangeNotifier {
   final AuthService _authService;
   final SupabaseClient _supabaseClient;
   final SnackbarController _snackbarController;
+  final _log = Logger('Auth Controller');
 
   late final GotrueSubscription _sub;
   Session? session;
@@ -56,7 +56,7 @@ class AuthController extends ChangeNotifier {
     result.when(
       (error) => _snackbarController.setSnackbarMessage(error.message),
       (_) {
-        log('Succeessfully accepted all invites');
+        _log.info('Succeessfully accepted all invites');
       },
     );
     return result;

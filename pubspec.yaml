@@ -20,7 +20,9 @@ dependencies:
   google_fonts: ^2.1.0
   intl: ^0.17.0
   json_annotation: ^4.4.0
+  logging: ^1.0.2
   multiple_result: ^1.0.4
+  sentry_flutter: ^6.1.2
   supabase_flutter: ^0.2.9
 
 dev_dependencies:
