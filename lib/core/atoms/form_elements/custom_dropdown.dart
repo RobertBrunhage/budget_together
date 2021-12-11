@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomDropdownButton<T> extends StatelessWidget {
@@ -35,18 +36,24 @@ class CustomDropdownButton<T> extends StatelessWidget {
           DropdownButtonFormField<T>(
             value: value,
             icon: const Icon(Icons.keyboard_arrow_down_rounded),
-            iconSize: 24,
             elevation: 4,
             isExpanded: true,
             decoration: const InputDecoration(
               border: InputBorder.none,
             ),
-            isDense: true,
             onChanged: onChanged,
             items: items,
           ),
         ],
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('label', label));
+    properties.add(DiagnosticsProperty<T>('value', value));
+    properties.add(ObjectFlagProperty<ValueChanged<T?>?>.has('onChanged', onChanged));
   }
 }

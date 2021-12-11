@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -30,5 +31,13 @@ class YearItem extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(ObjectFlagProperty<VoidCallback>.has('onTap', onTap));
+    properties.add(DiagnosticsProperty<bool>('isActive', isActive));
+    properties.add(IntProperty('year', year));
   }
 }

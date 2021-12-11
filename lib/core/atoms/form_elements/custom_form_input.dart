@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,20 +11,20 @@ class CustomFormField extends FormField<String> {
     TextInputType? keyboardType,
     List<TextInputFormatter>? inputFormatters,
     required String label,
-    required String errorMessage,
   }) : super(
-            key: key,
-            onSaved: onSaved,
-            validator: validator,
-            initialValue: initialValue,
-            builder: (state) {
-              return _CustomFormInputAtom(
-                state: state,
-                label: label,
-                keyboardType: keyboardType,
-                inputFormatters: inputFormatters,
-              );
-            });
+          key: key,
+          onSaved: onSaved,
+          validator: validator,
+          initialValue: initialValue,
+          builder: (state) {
+            return _CustomFormInputAtom(
+              state: state,
+              label: label,
+              keyboardType: keyboardType,
+              inputFormatters: inputFormatters,
+            );
+          },
+        );
 }
 
 class _CustomFormInputAtom extends StatefulWidget {
@@ -35,15 +36,21 @@ class _CustomFormInputAtom extends StatefulWidget {
     this.inputFormatters,
   }) : super(key: key);
 
-  // final FormFieldValidator<String>? validator;
-  final TextInputType? keyboardType;
-  final List<TextInputFormatter>? inputFormatters;
-  // final ValueChanged<String>? onChanged;
   final String label;
   final FormFieldState<String> state;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<_CustomFormInputAtom> createState() => _CustomFormInputAtomState();
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('label', label));
+    properties.add(DiagnosticsProperty<TextInputType?>('keyboardType', keyboardType));
+    properties.add(IterableProperty<TextInputFormatter>('inputFormatters', inputFormatters));
+    properties.add(DiagnosticsProperty<FormFieldState<String>>('state', state));
+  }
 }
 
 class _CustomFormInputAtomState extends State<_CustomFormInputAtom> {
@@ -76,9 +83,7 @@ class _CustomFormInputAtomState extends State<_CustomFormInputAtom> {
                   child: Text(
                     widget.label,
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                          color: !widget.state.hasError
-                              ? Colors.grey.shade600
-                              : Colors.red,
+                          color: !widget.state.hasError ? Colors.grey.shade600 : Colors.red,
                         ),
                   ),
                 ),
@@ -104,13 +109,11 @@ class _CustomFormInputAtomState extends State<_CustomFormInputAtom> {
           ),
           if (widget.state.hasError)
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8),
               child: Text(
                 widget.state.errorText ?? '',
                 style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                      color: !widget.state.hasError
-                          ? Colors.grey.shade600
-                          : Colors.red,
+                      color: !widget.state.hasError ? Colors.grey.shade600 : Colors.red,
                     ),
               ),
             ),

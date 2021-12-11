@@ -1,18 +1,18 @@
-import 'dart:developer';
-
-import 'package:budget_together/new_authentication/auth/auth_controller.dart';
-import 'package:budget_together/new_authentication/login.dart';
-import 'package:budget_together/new_household/controllers/splash.dart';
-import 'package:budget_together/new_household/views/household_add_expense_view.dart';
-import 'package:budget_together/new_household/views/household_create_view.dart';
-import 'package:budget_together/new_household/views/household_invite_view.dart';
-import 'package:budget_together/new_household/views/household_view.dart';
-import 'package:budget_together/theme/custom_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logging/logging.dart';
+
+import 'authentication/controllers/auth_controller.dart';
+import 'authentication/login_view.dart';
+import 'authentication/splash_view.dart';
+import 'household/views/household_create_view.dart';
+import 'household/views/household_view.dart';
+import 'invite/household_invite_view.dart';
+import 'localization/generated/l10n.dart';
+import 'theme/custom_theme.dart';
 
 /// The Widget that configures your application.
 class MyApp extends ConsumerStatefulWidget {
@@ -25,74 +25,47 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
+  final log = Logger('MyApp');
   late final _router = GoRouter(
     routes: [
       GoRoute(
         path: '/',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'splash',
-          child: const SplashView(),
-        ),
+        name: SplashView.route,
+        builder: (context, state) => const SplashView(),
       ),
       GoRoute(
         path: '/household',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'household',
-          child: const HouseholdView(),
-        ),
+        name: HouseholdView.route,
+        builder: (context, state) => const HouseholdView(),
         routes: [
           GoRoute(
             path: 'create',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'householdCreateView',
-              child: const HouseholdCreateView(),
-            ),
-          ),
-          GoRoute(
-            path: 'add-expense',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'addExpense',
-              child: const AddExpenseView(),
-            ),
+            name: HouseholdCreateView.route,
+            builder: (context, state) => const HouseholdCreateView(),
           ),
           GoRoute(
             path: 'invite',
-            pageBuilder: (context, state) => MaterialPage<void>(
-              key: state.pageKey,
-              name: 'invite',
-              child: const HouseholdInviteView(),
-            ),
+            name: HouseholdInviteView.route,
+            builder: (context, state) => const HouseholdInviteView(),
           ),
         ],
       ),
       GoRoute(
         path: '/login',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          name: 'login',
-          child: const LoginView(),
-        ),
+        name: LoginView.route,
+        builder: (context, state) => const LoginView(),
       ),
     ],
-    errorPageBuilder: (BuildContext context, GoRouterState state) {
-      return MaterialPage<void>(
-        key: state.pageKey,
-        child: const Scaffold(
-          body: Center(child: Text('ERROR')),
-        ),
-      );
-    },
     redirect: (state) {
-      final loggedIn =
-          ref.watch(authControllerProvider).session == null ? false : true;
+      final bool loggedIn;
+      if (ref.watch(authControllerProvider).session == null) {
+        loggedIn = false;
+      } else {
+        loggedIn = true;
+      }
 
       final goingToLogin = state.location == '/login';
-      log('loggedIn: ' + loggedIn.toString());
-      log('goingToLogin: ' + goingToLogin.toString());
+      log.info('loggedIn: $loggedIn, goingToLogin: $goingToLogin');
 
       // the user is not logged in and not headed to /login, they need to login
       if (!loggedIn && !goingToLogin) return '/login';
@@ -112,8 +85,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
       restorationScopeId: 'app',
+      scrollBehavior: const ScrollBehaviorModified(),
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        S.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -121,11 +95,15 @@ class _MyAppState extends ConsumerState<MyApp> {
       supportedLocales: const [
         Locale('en', ''), // English, no country code
       ],
-      scrollBehavior: const ScrollBehaviorModified(),
-      onGenerateTitle: (BuildContext context) =>
-          AppLocalizations.of(context)!.appTitle,
-      theme: CustomTheme.lightTheme(context),
+      onGenerateTitle: (context) => S.of(context).appTitle,
+      theme: lightTheme(context),
     );
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<Logger>('log', log));
   }
 }
 
