@@ -1,9 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
-class YearItem extends ConsumerWidget {
-  const YearItem({
+import '../../widget_book/widget_book_multi_center.dart';
+
+@WidgetbookUseCase(name: 'active', type: YearToggle)
+Widget widgetBookYearToggle(BuildContext context) {
+  return WidgetBookCenter(children: [YearToggle(year: 2019, onTap: () {}, isActive: true)]);
+}
+
+@WidgetbookUseCase(name: 'not active', type: YearToggle)
+Widget widgetBookYearToggle2(BuildContext context) {
+  return WidgetBookCenter(children: [YearToggle(year: 2019, onTap: () {}, isActive: false)]);
+}
+
+class YearToggle extends ConsumerWidget {
+  const YearToggle({
     Key? key,
     required this.year,
     required this.onTap,

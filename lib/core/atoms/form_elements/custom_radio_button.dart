@@ -1,5 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
+
+import '../../widget_book/widget_book_multi_center.dart';
+
+@WidgetbookUseCase(name: 'active', type: CustomRadioButton)
+Widget widgetBookCustomRadioButton(BuildContext context) {
+  return WidgetBookCenter(children: [CustomRadioButton(title: 'isActive', onChanged: (value) {}, value: true)]);
+}
+
+@WidgetbookUseCase(name: 'not active', type: CustomRadioButton)
+Widget widgetBookCustomRadioButton2(BuildContext context) {
+  return WidgetBookCenter(children: [CustomRadioButton(title: 'isActive', onChanged: (value) {})]);
+}
 
 class CustomRadioButton extends StatelessWidget {
   const CustomRadioButton({

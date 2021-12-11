@@ -9,6 +9,7 @@ analyzer:
     - "bin/cache/**"
     - "lib/generated_plugin_registrant.dart"
     - "lib/localization/generated/**"
+    - "**/*.widgetbook.dart"
 
   strong-mode:
     implicit-casts: false

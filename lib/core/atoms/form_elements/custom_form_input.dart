@@ -1,6 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
+
+import '../../widget_book/widget_book_multi_center.dart';
+
+@WidgetbookUseCase(name: 'default', type: CustomFormField)
+Widget widgetBookCustomFormField(BuildContext context) {
+  return WidgetBookCenter(children: [CustomFormField(label: 'Name')]);
+}
 
 class CustomFormField extends FormField<String> {
   CustomFormField({
