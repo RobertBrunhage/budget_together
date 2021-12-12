@@ -46,7 +46,14 @@ class HouseholdService {
     try {
       final householdEntity = await _householdRepository.fetchHousehold(userId);
       if (householdEntity == null) return Error(Failure('no entities exists'));
-      return Success(Household.fromEntity(householdEntity));
+
+      final now = DateTime.now();
+      final startDate = DateTime(now.year, now.month);
+      final endDate = DateTime(now.year, now.month + 1, 0);
+      final updatedExpenses = await _expenseRepository.fetchExpenses(householdEntity.id, startDate, endDate);
+      final updatedHouseholdEntity = householdEntity.copyWith(expenses: updatedExpenses ?? []);
+
+      return Success(Household.fromEntity(updatedHouseholdEntity));
     } on SupabaseException catch (e) {
       return Error(Failure(e.message));
     }
