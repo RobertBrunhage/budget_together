@@ -26,12 +26,12 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
   final _log = Logger('Household View');
   @override
   Widget build(BuildContext context) {
+    snackbarDisplayer(context, ref);
     ref.listen<HouseholdState>(householdControllerProvider, (previous, next) {
       if (next.household.value == null) {
         context.goNamed(HouseholdCreateView.route);
       }
     });
-    snackbarDisplayer(context, ref);
 
     return Scaffold(
       body: ref.watch(householdControllerProvider).household.when(

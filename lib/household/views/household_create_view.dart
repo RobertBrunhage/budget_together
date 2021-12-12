@@ -41,20 +41,25 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
         child: Form(
           key: _formKey,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextFormField(
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    username = value;
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: TextFormField(
+                  decoration: const InputDecoration(labelText: 'Household name'),
+                  // The validator receives the text that the user has entered.
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter some text';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      username = value;
+                    });
+                  },
+                ),
               ),
               ElevatedButton(
                 onPressed: () async {

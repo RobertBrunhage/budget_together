@@ -21,7 +21,7 @@ class Household with _$Household {
       id: householdEntity.id,
       creator: householdEntity.creator,
       name: householdEntity.name,
-      expenses: householdEntity.expenses.map((expense) => Expense.fromEntity(expense)).toList(),
+      expenses: householdEntity.expenses?.map((expense) => Expense.fromEntity(expense)).toList() ?? [],
     );
   }
 

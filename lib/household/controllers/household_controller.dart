@@ -106,7 +106,10 @@ class HouseholdController extends StateNotifier<HouseholdState> {
     state = state.copyWith(household: const AsyncValue.loading());
     final result = await _householdService.fetchHousehold(_supabaseClient.auth.currentUser!.id);
     result.when(
-      (error) => _snackbarController.setSnackbarMessage(error.message),
+      (error) {
+        _snackbarController.setSnackbarMessage(error.message);
+        state = state.copyWith(household: const AsyncValue.data(null));
+      },
       (household) {
         state = state.copyWith(household: AsyncValue.data(household));
       },
