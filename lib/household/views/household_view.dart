@@ -143,7 +143,7 @@ class _SpentThisMonth extends StatelessWidget {
           style: Theme.of(context).textTheme.headline3,
         ),
         Text(
-          '${household?.spentThisMonth} kr',
+          '${household?.totalSpent} kr',
           style: Theme.of(context).textTheme.headline1?.copyWith(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,

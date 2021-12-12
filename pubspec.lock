@@ -540,12 +540,12 @@ packages:
     source: hosted
     version: "1.5.0"
   postgrest:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: postgrest
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.8"
+    version: "0.1.9"
   process:
     dependency: transitive
     description:
