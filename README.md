@@ -1,10 +1,10 @@
 # budget_together
 
-A project to easily invite and keep track of expenses for a family.
+A project to easily invite and keep track of expenses for a family. This is for now just a fun side project that me and my girlfriend use to keep track of expenses.
 
 ## Getting Started
 
-This follows an MVU architecture
+Yeah I should really write this sometime in the future
 
 ## Assets
 
@@ -17,8 +17,4 @@ images](https://flutter.dev/docs/development/ui/assets-and-images#resolution-awa
 ## Localization
 
 This project generates localized messages based on arb files found in
-the `lib/localization` directory.
-
-To support additional languages, please visit the tutorial on
-[Internationalizing Flutter
-apps](https://flutter.dev/docs/development/accessibility-and-localization/internationalization)
+the `lib/localization` directory, with the help of the Flutter Intl package.
