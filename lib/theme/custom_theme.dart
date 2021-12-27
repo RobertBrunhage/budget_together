@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
+ThemeData getDarkTheme() => ThemeData(
+      primarySwatch: Colors.blue,
+    );
+
+@WidgetbookTheme.light()
 ThemeData lightTheme(BuildContext context) {
   final theme = Theme.of(context);
   return ThemeData.light().copyWith(

@@ -1,5 +1,27 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
+
+import '../../widget_book/widget_book_multi_center.dart';
+
+@WidgetbookUseCase(name: 'default', type: CustomDropdownButton)
+Widget widgetBookCustomDropdownButton(BuildContext context) {
+  return WidgetBookCenter(
+    children: [
+      CustomDropdownButton<String>(
+        items: const [
+          DropdownMenuItem<String>(
+            value: 'item',
+            child: Text('item'),
+          ),
+        ],
+        label: 'test',
+        value: 'item',
+        onChanged: (value) {},
+      ),
+    ],
+  );
+}
 
 class CustomDropdownButton<T> extends StatelessWidget {
   const CustomDropdownButton({

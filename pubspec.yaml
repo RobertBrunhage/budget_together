@@ -28,6 +28,8 @@ dependencies:
   multiple_result: ^1.0.4
   sentry_flutter: ^6.1.2
   supabase_flutter: ^0.2.9
+  widgetbook: ^1.0.2
+  widgetbook_annotation: ^1.0.0
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.3
@@ -37,6 +39,7 @@ dev_dependencies:
   freezed: ^1.0.0
   json_serializable: ^6.1.1
   mocktail: ^0.2.0
+  widgetbook_generator: ^1.0.2
 
 flutter:
   uses-material-design: true

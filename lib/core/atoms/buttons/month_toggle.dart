@@ -2,6 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
+
+import '../../widget_book/widget_book_multi_center.dart';
+
+@WidgetbookUseCase(name: 'active', type: MonthToggle)
+Widget widgetBookMonthToggle(BuildContext context) {
+  return WidgetBookCenter(children: [MonthToggle(month: 2, onTap: () {}, isActive: true)]);
+}
+
+@WidgetbookUseCase(name: 'not active', type: MonthToggle)
+Widget widgetBookMonthToggle2(BuildContext context) {
+  return WidgetBookCenter(children: [MonthToggle(month: 2, onTap: () {}, isActive: false)]);
+}
 
 class MonthToggle extends ConsumerWidget {
   const MonthToggle({
@@ -20,6 +33,8 @@ class MonthToggle extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        width: 48,
+        height: 26,
         padding: const EdgeInsets.symmetric(
           horizontal: 12,
         ),

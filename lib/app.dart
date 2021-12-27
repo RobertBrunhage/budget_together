@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logging/logging.dart';
+import 'package:widgetbook_annotation/widgetbook_annotation.dart';
 
 import 'authentication/controllers/auth_controller.dart';
 import 'authentication/login_view.dart';
@@ -15,6 +16,7 @@ import 'localization/generated/l10n.dart';
 import 'theme/custom_theme.dart';
 
 /// The Widget that configures your application.
+@WidgetbookApp(name: 'Example App', devices: [Apple.iPhone12])
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({
     Key? key,

@@ -21,7 +21,7 @@ class YearSelectorList extends ConsumerWidget {
         reverse: true,
         itemBuilder: (context, index) {
           final itemYear = date.year - index;
-          return YearItem(
+          return YearToggle(
             year: itemYear,
             onTap: () {
               ref.read(householdControllerProvider.notifier).setYear(itemYear);
