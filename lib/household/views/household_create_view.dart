@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../authentication/supabase/supabase_provider.dart';
 import '../../core/error_handling/snackbar_controller.dart';
 import '../../invite/controllers/invite_controller.dart';
+import '../../localization/generated/l10n.dart';
 import '../controllers/household_controller.dart';
 import 'household_view.dart';
 
@@ -46,11 +47,11 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: TextFormField(
-                  decoration: const InputDecoration(labelText: 'Household name'),
+                  decoration: InputDecoration(labelText: S.of(context).householdName),
                   // The validator receives the text that the user has entered.
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return S.of(context).fieldIsRequiredMessage;
                     }
                     return null;
                   },
@@ -72,7 +73,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdCreateView> {
                         );
                   }
                 },
-                child: const Text('Submit'),
+                child: Text(S.of(context).submit),
               ),
             ],
           ),

@@ -9,6 +9,7 @@ import '../../authentication/supabase/supabase_provider.dart';
 import '../../core/error_handling/snackbar_controller.dart';
 import '../../core/molecules/list_items/custom_list_tile.dart';
 import '../../invite/household_invite_view.dart';
+import '../../localization/generated/l10n.dart';
 import '../controllers/household_controller.dart';
 import '../models/household/household.dart';
 import '../widgets/custom_app_bar_delegate.dart';
@@ -39,24 +40,24 @@ class _HouseholdViewState extends ConsumerState<HouseholdView> {
               return _Body(household: household);
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, s) => const Center(child: Text('error')),
+            error: (e, s) => Center(child: Text(S.of(context).genericErrorMessage)),
           ),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              child: Text('Budget together'),
+            DrawerHeader(
+              child: Text(S.of(context).appName),
             ),
             ListTile(
-              title: const Text('Invite'),
+              title: Text(S.of(context).invite),
               onTap: () {
                 context.goNamed(HouseholdInviteView.route);
               },
             ),
             ListTile(
-              title: const Text('Sign out'),
+              title: Text(S.of(context).signOut),
               onTap: _signOut,
             ),
           ],
@@ -99,10 +100,10 @@ class _Body extends ConsumerWidget {
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
           SliverToBoxAdapter(child: _SpentThisMonth(household: household)),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Text('Utgifter'),
+              padding: const EdgeInsets.all(16),
+              child: Text(S.of(context).expenses),
             ),
           ),
           SliverList(
@@ -139,11 +140,11 @@ class _SpentThisMonth extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Spenderat denna månaden',
+          S.of(context).spentThisMonth,
           style: Theme.of(context).textTheme.headline3,
         ),
         Text(
-          '${household?.totalSpent} kr',
+          S.of(context).totalSpent(household?.totalSpent ?? 0),
           style: Theme.of(context).textTheme.headline1?.copyWith(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,

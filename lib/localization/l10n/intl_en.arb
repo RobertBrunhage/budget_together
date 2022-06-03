@@ -1,4 +1,44 @@
 {
   "appTitle": "Expense Tracker",
-  "noInternetConnection": "No internet connection"
+  "noInternetConnection": "No internet connection",
+  "invite": "Invite",
+  "appName": "Budget together",
+  "signOut": "Sign out",
+  "expenses": "Expenses",
+  "spentThisMonth": "Spent this month",
+  "householdName": "Household name",
+  "fieldIsRequiredMessage": "Field is required",
+  "submit": "Submit",
+  "signIn": "Sign In",
+  "signInViaMagicLink": "Sign in via the magic link with your email below",
+  "email": "Email",
+  "loading": "Loading",
+  "sendMagicLink": "Send Magic Link",
+  "checkEmailForLink": "Check your email for login link!",
+  "add": "add",
+  "addExpense": "add expense",
+  "sumLabelNotRequired": "Sum *",
+  "sumRequiredMessage": "Sum is required",
+  "newCategory": "New category",
+  "category": "Category",
+  "categoryNotRequiredLabel": "Category *",
+  "categoryRequiredMessage": "Your new category needs a name",
+  "categoryBudget": "Category budget",
+  "genericErrorMessage": "error",
+  "noEntitiesExists": "no entities exists",
+  "noExpenses": "No expenses",
+  "emailIsRequiredMessage": "email is required",
+  "totalSpent": "{total}",
+  "@totalSpent": {
+    "placeholders": {
+      "total": {
+        "type": "double",
+        "format": "currency",
+        "optionalParameters": {
+          "symbol": "kr",
+          "decimalDigits": 2
+        }
+      }
+    }
+  }
 }

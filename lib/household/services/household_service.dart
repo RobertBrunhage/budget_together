@@ -4,6 +4,7 @@ import 'package:multiple_result/multiple_result.dart';
 import '../../authentication/entities/user_entity.dart';
 import '../../core/error_handling/failure.dart';
 import '../../core/error_handling/supabase_exception.dart';
+import '../../localization/generated/l10n.dart';
 import '../entities/category/category_entity.dart';
 import '../entities/expense/expense_entity.dart';
 import '../models/category/category.dart';
@@ -35,7 +36,10 @@ class HouseholdService {
   Future<Result<Failure, void>> createHousehold(final String userId, final String householdName) async {
     try {
       final householdId = await _householdRepository.createHousehold(userId, householdName);
-      await _categoryRepository.createCategory(CategoryEntity(name: 'annat', id: -1), householdId);
+      await _categoryRepository.createCategory(
+        CategoryEntity(name: 'annat', id: -1),
+        householdId,
+      );
       return const Success(null);
     } on SupabaseException catch (e) {
       return Error(Failure(e.message));
@@ -45,7 +49,7 @@ class HouseholdService {
   Future<Result<Failure, Household?>> fetchHousehold(final String userId) async {
     try {
       final householdEntity = await _householdRepository.fetchHousehold(userId);
-      if (householdEntity == null) return Error(Failure('no entities exists'));
+      if (householdEntity == null) return Error(Failure(S.current.noEntitiesExists));
 
       final now = DateTime.now();
       final startDate = DateTime(now.year, now.month);
@@ -72,7 +76,7 @@ class HouseholdService {
         startDate,
         endDate,
       );
-      if (expenseEntities == null) return Error(Failure('No expenses'));
+      if (expenseEntities == null) return Error(Failure(S.current.noExpenses));
 
       return Success(expenseEntities.map((final e) => Expense.fromEntity(e)).toList());
     } on SupabaseException catch (e) {

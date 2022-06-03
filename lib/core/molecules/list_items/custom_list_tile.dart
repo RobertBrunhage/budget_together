@@ -19,7 +19,7 @@ class CustomListTile extends ConsumerWidget {
       leading: const CircleAvatar(),
       title: Text(expense.category.name),
       subtitle: Text(expense.dateFormatted()),
-      trailing: Text('${expense.amount} :-'),
+      trailing: Text('${expense.amount}'),
       onLongPress: () => ref.read(householdControllerProvider.notifier).deleteExpense(expense.id),
     );
   }

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../household/controllers/category_controller.dart';
 import '../../household/controllers/household_controller.dart';
 import '../../household/models/category/category.dart';
+import '../../localization/generated/l10n.dart';
 import '../atoms/form_elements/custom_dropdown.dart';
 import '../atoms/form_elements/custom_form_input.dart';
 import '../atoms/form_elements/custom_radio_button.dart';
@@ -58,15 +59,15 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Lägg till utgift',
+                          S.of(context).addExpense,
                           style: Theme.of(context).textTheme.headline2,
                         ),
                         const SizedBox(height: 12),
                         CustomFormField(
-                          label: 'Summa *',
+                          label: S.of(context).sumLabelNotRequired,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Skriv in summan av din utgift';
+                              return S.of(context).sumRequiredMessage;
                             }
                             return null;
                           },
@@ -84,7 +85,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                           ],
                         ),
                         CustomRadioButton(
-                          title: 'Ny kategori',
+                          title: S.of(context).newCategory,
                           value: newCategory,
                           onChanged: (value) {
                             setState(() {
@@ -95,7 +96,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                         if (!newCategory) ...[
                           const SizedBox(height: 12),
                           CustomDropdownButton<Category>(
-                            label: 'Kategori',
+                            label: S.of(context).category,
                             value: ref.watch(categoryControllerProvider).category,
                             onChanged: (newValue) {
                               ref.read(categoryControllerProvider.notifier).setCategory(newValue!);
@@ -113,10 +114,10 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                         ],
                         if (newCategory) ...[
                           CustomFormField(
-                            label: 'Kategori *',
+                            label: S.of(context).categoryNotRequiredLabel,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Din nya kategori behöver ett namn';
+                                return S.of(context).categoryRequiredMessage;
                               }
                               return null;
                             },
@@ -128,7 +129,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                           ),
                           const SizedBox(height: 12),
                           CustomFormField(
-                            label: 'Kategori Budget',
+                            label: S.of(context).categoryBudget,
                             onSaved: (value) {
                               setState(() {
                                 categoryBudgetAmount = value;
@@ -155,7 +156,7 @@ class _AddExpenseBottomSheetState extends ConsumerState<AddExpenseBottomSheet> {
                           height: 60,
                           child: TextButton(
                             onPressed: () => addExpense(ref),
-                            child: const Text('Lägg till'),
+                            child: Text(S.of(context).add),
                           ),
                         ),
                         const SizedBox(height: 30),

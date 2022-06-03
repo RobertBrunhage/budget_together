@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../localization/generated/l10n.dart';
 import 'supabase/auth_state.dart';
 
 class LoginView extends StatefulWidget {
@@ -32,7 +33,9 @@ class _LoginViewState extends AuthState<LoginView> {
       showSnackbar(error.message);
     } else {
       _log.info('Check your email for login link!');
-      showSnackbar('Check your email for login link!');
+      if (mounted) {
+        showSnackbar(S.of(context).checkEmailForLink);
+      }
       _emailController.clear();
     }
 
@@ -66,20 +69,19 @@ class _LoginViewState extends AuthState<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
+      appBar: AppBar(title: Text(S.of(context).signIn)),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Sign in via the magic link with your email below'),
+          Text(S.of(context).signInViaMagicLink),
           const SizedBox(height: 18),
           TextFormField(
             controller: _emailController,
-            decoration: const InputDecoration(labelText: 'Email'),
           ),
           const SizedBox(height: 18),
           ElevatedButton(
             onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Loading' : 'Send Magic Link'),
+            child: Text(_isLoading ? S.of(context).loading : S.of(context).sendMagicLink),
           ),
         ],
       ),

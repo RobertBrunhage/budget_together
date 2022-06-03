@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../core/error_handling/snackbar_controller.dart';
 import '../household/views/household_view.dart';
+import '../localization/generated/l10n.dart';
 import 'controllers/invite_controller.dart';
 
 class HouseholdInviteView extends ConsumerStatefulWidget {
@@ -32,7 +33,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                 // The validator receives the text that the user has entered.
                 validator: (final value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return S.of(context).emailIsRequiredMessage;
                   }
                   return null;
                 },
@@ -54,7 +55,7 @@ class _HouseholdCreateViewState extends ConsumerState<HouseholdInviteView> {
                     }
                   }
                 },
-                child: const Text('Submit'),
+                child: Text(S.of(context).submit),
               ),
             ],
           ),

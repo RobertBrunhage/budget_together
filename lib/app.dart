@@ -93,7 +93,8 @@ class _MyAppState extends ConsumerState<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en', ''), // English, no country code
+        Locale('sv', 'SE'),
+        // Locale('en', ''), // English, no country code
       ],
       onGenerateTitle: (context) => S.of(context).appTitle,
       theme: lightTheme(context),
